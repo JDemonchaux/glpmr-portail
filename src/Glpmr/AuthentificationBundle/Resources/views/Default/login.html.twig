@@ -1,0 +1,59 @@
+{% extends "GlpmrAuthentificationBundle::layout.html.twig" %}
+{% block body %}
+    <div class="onTop">
+        <nav class="top-nav bg-bleu-pasteur">
+            <div class="container">
+                <div class="nav-wrapper">
+                    <a class="page-title">
+                        Portail d'inscription des machines
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="col s12">
+                <div class="row">
+                    <div class="col l5 s12">
+                        <div class="card-panel z-depth-1 center-align">
+                            <img src="{{ asset('assets/images/logo.Png') }}" alt="Logo de l'école" class="logo"/>
+                        </div>
+                    </div>
+                    <div class="col l7 s12">
+                        <div class="row">
+                            <div class="card-panel z-depth-2">
+                                <div class="row right-align info_popup_row">
+                                    <i class="mdi-action-help blue-text bt_info_popup tooltipped tooltip-identifiants" data-position="left" data-delay="15"></i>
+                                </div>
+                                <div class="row center-align">
+                                    <h5>Authentification</h5>
+                                </div>
+                                <div class="row">
+                                    <div class="container">
+                                        <form method="POST" action="{{ path('glpmr_authentification_login') }}">
+                                            <div class="input-field">
+                                                <i class="mdi-action-account-box prefix"></i>
+                                                <input type="text" id="username" class="validate" name="username">
+                                                <label for="username">Nom d'utilisateur :</label>
+                                            </div>
+                                            <div class="input-field">
+                                                <i class="mdi-hardware-keyboard prefix"></i>
+                                                <input type="password" id="password" class="validate" name="password">
+                                                <label for="password">Mot de passe :</label>
+                                            </div>
+                                            <div class="input-field center-align">
+                                                <button class="btn bg-bleu-pasteur waves-effect waves-light" type="submit" name="action">Connexion
+                                                    <i class="mdi-content-send right"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

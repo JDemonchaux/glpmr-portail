@@ -1,0 +1,16 @@
+glpmr_peripherique_gestion:
+    path:     /
+    defaults: { _controller: GlpmrPeripheriqueBundle:Peripherique:lister }
+    
+glpmr_peripherique_ajouter:
+    path:   /ajouter
+    defaults: { _controller: GlpmrPeripheriqueBundle:Peripherique:ajouter }
+    
+glpmr_peripherique_modifier:
+    path:   /modifier
+    defaults: { _controller: GlpmrPeripheriqueBundle:Peripherique:modifier }
+    
+glpmr_peripherique_supprimer:
+    path:   /supprimer
+    defaults: { _controller: GlpmrPeripheriqueBundle:Peripherique:supprimer }
+    

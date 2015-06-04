@@ -1,0 +1,11 @@
+glpmr_authentification_homepage:
+    path:     /
+    defaults: { _controller: GlpmrAuthentificationBundle:Authentification:index }
+
+glpmr_authentification_login:
+    path:   /login
+    defaults: { _controller: GlpmrAuthentificationBundle:Authentification:login }
+
+glpmr_authentification_logout:
+    path:   /logout
+    defaults: { _controller: GlpmrAuthentificationBundle:Authentification:logout }

@@ -1,0 +1,44 @@
+<!-- menu déroulant -->
+<ul id="dropdown1" class="dropdown-content bg-bleu-pasteur">
+	{% if app.request.get('_route') == 'glpmr_peripherique_gestion' %}
+		<li><a href="#formAdresse" class="modal-trigger"><i class="mdi-content-add right"></i>Ajouter une adresse</a>
+		</li>
+	{% endif %}
+	<li><a href="{{ path('glpmr_authentification_logout') }}"><i class="mdi-action-settings-power right"></i>Logout</a>
+	</li>
+</ul>
+
+<nav class="bg-bleu-pasteur z-depth-2">
+	<div class="nav-wrapper">
+		<div class="col s12">
+			<a href="{{ path('glpmr_authentification_homepage') }}" class="brand-logo">
+				<img src="{{ asset('assets/images/logo.Png') }}" alt="Logo de l'école" class="logo"/>
+			</a>
+			<ul class="right">
+				<li>
+					<a href="{{ path('glpmr_peripherique_gestion') }}">Gestion des p&eacute;riph&eacute;riques</a>
+				</li>
+				<li>
+					<a href="#!">Gestion des machines</a>
+				</li>
+				{% if app.session.get("admin") == TRUE %}
+					<li>
+						<a href="{{ path('glpmr_admin_recherche') }}"><i class="mdi-action-search"></i></a>
+					</li>
+				{% endif %}
+				<!-- Dropdown Trigger -->
+				<li>
+					<a class="dropdown-button btAction" href="#!"
+					   data-activates="dropdown1">{{ app.session.get('username') }}<i
+								class="mdi-action-toc large right"></i></a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+
+
+
+
+
+

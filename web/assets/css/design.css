@@ -1,0 +1,168 @@
+body {
+	/*background: url('../images/bg.png') repeat;*/
+}
+
+.logo {
+	max-width:272px;
+	width:100%;
+}
+
+.info_popup_row {
+	margin-top:-15px;	
+}
+
+.bt_info_popup {
+	cursor: pointer;
+}
+
+.cursor-pointer {
+	cursor:pointer;
+}
+
+/******************************************
+*
+*		MENU
+*
+******************************************/
+i.large {
+	font-size:3rem !important;
+}
+
+div.correct {
+	padding-top:1px;
+}
+
+.brand-logo {
+	width:85px !important;
+}
+
+.btAction {
+	min-width: 150px !important;
+}
+
+/* Menu déroulant */
+#dropdown1 {
+	margin-top:64px;
+	/* Corrections */
+	width:auto !important;
+	height:auto !important;
+	overflow-y: auto !important;
+}
+
+.nav-title-wrapper {
+	position:absolute;
+	top:85px;
+	z-index:999;
+	width:100%;
+	min-width:486px;
+	height:45px;
+}
+.nav-title-wrapper > h3 {
+	margin-top:5px;
+}
+
+#dropdown1 li > a {
+	color: white;
+}
+
+nav.top-nav {
+	height: 122px;
+	box-shadow: none;
+	margin-bottom: 2rem;
+	overflow: hidden;
+}
+
+nav.top-nav a.page-title {
+	line-height: 122px;
+	font-size: 48px;
+}
+
+
+/******************************************
+*
+*		COLORS
+*
+******************************************/
+
+.bg-vert-pasteur {
+	background-color:#87B356;
+}
+.bg-bleu-pasteur {
+	background-color:#114776;
+}
+
+.fg-vert-pasteur {
+	color:#87B356;
+}
+.fg-bleu-pasteur {
+	color:#114776;
+}
+
+
+
+
+
+
+/******************************************
+*
+*		LAYOUT 
+*
+******************************************/
+
+.main {
+	margin-top:85px !important;
+}
+
+
+
+
+
+/******************************************
+*
+*		PAGE DE LOGIN 
+*
+******************************************/
+div.onTop {
+	position:absolute;
+	width:100%;
+	top:0;
+	left:0;
+	z-index:999;
+}
+
+
+
+
+
+
+/******************************************
+*
+*		TABLEAU GESTION ADRESSE 
+*
+******************************************/
+
+thead > tr > th {
+	text-align: center;
+	padding: 15px 10px;
+}
+
+.card-table {
+	padding:0px !important;
+}
+
+/******************************************
+*
+*		Formulaire
+*
+******************************************/
+
+
+
+/* Style des select */
+.dropdown-content li > span {
+	color:black;
+}
+
+.modal-content {
+	padding:15px !important;
+}

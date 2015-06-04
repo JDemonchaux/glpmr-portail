@@ -1,0 +1,15 @@
+glpmr_admin:
+    resource: "@GlpmrAdminBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
+glpmr_peripherique:
+    resource: "@GlpmrPeripheriqueBundle/Resources/config/routing.yml"
+    prefix:   /Peripherique
+
+glpmr_authentification:
+    resource: "@GlpmrAuthentificationBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: @AppBundle/Controller/
+    type:     annotation
