@@ -93,6 +93,7 @@
 
 			<!-- Formulaire ajout d'adresse -->
 			<div id="formAdresse" class="modal modal-fixed-footer">
+				<form action="{{ path('glpmr_peripherique_ajouter') }}" method="POST">
 				<div class="modal-content">	
 					<h5>Ajouter une adresse</h5>
 					<div class="col s12">	
@@ -100,7 +101,7 @@
 							<i class="mdi-action-perm-device-info small"></i>
 						</div>	
 						<div class="col s6">
-							<select id="materiel">
+							<select id="type" name="type">
 								<option value="" disabled selected>Choisir un p&eacute;riph&eacute;rique</option>
 								<option value="ordinateur">Ordinateur</option>
 								<option value="smartphone">T&eacute;l&eacute;phone</option>
@@ -112,25 +113,24 @@
 							<i class="mdi-action-settings-remote small"></i>
 						</div>	
 						<div class="col s4">
-							<select id="ip">
+							<select id="ip" name="ip">
 								<option value="" disabled selected>Choisir une IP :</option>
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
+								{% for i in 1..254 %}
+									<option value="{{ i }}">{{ i }}</option>
+								{% endfor %}
 							</select>
 						</div>
 						<div class="col s12">
 							<div class="input-field">
 								<i class="mdi-action-dns prefix"></i>
-								<input type="text" id="hostname" class="validate" />
+								<input type="text" id="hostname" class="validate" name="hostname"/>
 								<label for="hostname">Hostname</label>
 							</div>
 						</div>
 						<div class="col s12">
 							<div class="input-field">
 								<i class="mdi-hardware-cast prefix"></i>
-								<input type="text" id="adresse" class="validate" />
+								<input type="text" id="adresse" class="validate" name="adresse"/>
 								<label for="adresse">Adresse MAC</label>
 							</div>
 						</div>
@@ -138,7 +138,7 @@
 						<div class="col s12">
 							<div class="input-field">
 								<i class="mdi-editor-mode-edit prefix"></i>
-								<input type="text" id="description" class="validate"/>
+								<input type="text" id="description" class="validate" name="description"/>
 								<label for="description">Description</label>
 							</div>
 						</div>
@@ -148,6 +148,7 @@
 					<a href="#" class="waves-effect waves-red btn-flat modal-action modal-close">Fermer</a>
 					<button class="btn-flat waves-effect waves-green" type="submit" name="action">Enregistrer</button>
 				</div>
+				</form>
 			</div>
 
 

@@ -12,7 +12,7 @@ class AuthentificationLDAP {
 
     private static $baseDN = "dc=labo,dc=lpmr,dc=info";
     private static $ldapServer = "PROD-DC-01";
-//    private static $ldapServer = "172.16.0.100";
+//  private static $ldapServer = "172.16.0.100";
     private static $ldapServerPort = 389;
     private static $dn = 'cn=users,dc=labo,dc=lpmr,dc=info';
     public static $connexion;
@@ -25,11 +25,9 @@ class AuthentificationLDAP {
      * @return boolean $ldapbind : true si connection OK et false sinon
      */
     public static function open($login, $pass) {
-        //ldap_set_option(self::$connexion, LDAP_OPT_PROTOCOL_VERSION, 3); 
-        
+        //ldap_set_option(self::$connexion, LDAP_OPT_PROTOCOL_VERSION, 3);
         // Initialisation de la connexion
         self::$connexion = ldap_connect(self::$ldapServer, self::$ldapServerPort);
-
         if (self::$connexion) {
             // Connexion au serveur LDAP avec authentification
             $ldapbind = ldap_bind(self::$connexion, $login, $pass);

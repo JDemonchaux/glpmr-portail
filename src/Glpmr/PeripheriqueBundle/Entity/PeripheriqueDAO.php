@@ -6,11 +6,19 @@ namespace Glpmr\PeripheriqueBundle\Entity;
  * @author Jérôme
  */
 class PeripheriqueDAO {
-    private $table_name = "";
-    
+    private $table_name = "radmacadd";
+    private $connexion;
+
+    public function __construct(Connection $dbalConnection)
+    {
+        $this->connection = $dbalConnection;
+    }
     
     public function ajouter(Peripherique $obj) {
-        
+        $sql = "Insert into " . $this->table_name . " values (``, :hostname, :description, :type, :add_mac, )"
+        $stmt = $this->connection->prepare($sql);
+        //$stmt->bindValue("foo", $foo);
+        $stmt->execute();
     }
     
     public function modifier(Peripherique $obj) {
@@ -20,8 +28,9 @@ class PeripheriqueDAO {
     public function supprimer(Peripherique $obj) {
         
     }
-    
-    public function supprimerGroupe(String $classe) {
+
+    public function supprimerGroupe($classe)
+    {
         
     }
     
