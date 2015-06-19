@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new Glpmr\AuthentificationBundle\GlpmrAuthentificationBundle(),
             new Glpmr\PeripheriqueBundle\GlpmrPeripheriqueBundle(),
             new Glpmr\AdminBundle\GlpmrAdminBundle(),
+			new Glpmr\VirtualMachineBundle\GlpmrVirtualMachineBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

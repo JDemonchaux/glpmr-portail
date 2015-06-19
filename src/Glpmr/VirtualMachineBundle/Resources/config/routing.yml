@@ -1,0 +1,7 @@
+glpmr_virtual_machine_creation:
+    path:     /creation
+    defaults: { _controller: GlpmrVirtualMachineBundle:VirtualMachine:creation }
+    
+glpmr_virtual_machine_consultation:
+    path:     /consultation
+    defaults: { _controller: GlpmrVirtualMachineBundle:VirtualMachine:consultation }

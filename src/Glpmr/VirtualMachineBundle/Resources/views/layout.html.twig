@@ -1,0 +1,21 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+    <div class="container conteneurPrincipal">
+        <div class="row">
+            <div class="col s12">
+                <div class="col s2 menuCreation">
+                    {% include "GlpmrVirtualMachineBundle:Default:menuCreation.html.twig" %}
+                </div>
+                <div class="col s2">
+                    <p>&nbsp;</p>
+                </div>
+                <div class="col s10">
+                    {% block contenu %}
+
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
