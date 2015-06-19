@@ -2,6 +2,7 @@
 
 namespace Glpmr\AuthentificationBundle\Entity;
 
+use Glpmr\VirtualMachineBundle\Entity\User as User;
 
 /**
  * Description of AuthentificationLDAP
