@@ -1,0 +1,71 @@
+{% extends "GlpmrVirtualMachineBundle::layout.html.twig" %}
+
+{% block body %}
+    <div class="container conteneurPrincipal">
+        <div class="row">
+            <div class="col s12">
+                <div class="col s2 menuCreation">
+                    {% include "GlpmrVirtualMachineBundle:Default:menuCreation.html.twig" %}
+                </div>
+                <div class="col s2">
+                    <p>&nbsp;</p>
+                </div>
+                <div class="col s10">
+                    <h3 class='title'>Consultation des Machines Virtuelles</h3>
+
+                    <div class="row">                               
+                        <div class="col s12">
+                            <table class="hooverable">
+                                <thead>
+                                    <tr>
+                                        <th data-field="nom">Nom</th>
+                                        <th data-field="classe">Classe</th>
+                                        <th data-field="stockage">Stockage</th>
+                                        <th data-field="ram">RAM</th>
+                                        <th data-field="disqueDur">Disque dur</th>
+                                        <th data-field="swap">SWAP</th>
+                                        <th data-field="nbrCpu">Nombre CPU</th>
+                                        <th data-field="adresseReseau">Adresse Réseau</th>
+                                        <th data-field="formateur">Formateur</th>
+                                        <th data-field="adresseMail">Adresse mail</th>
+                                        <th data-field="template">Template</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                {#    {% for demande in Demande %}
+                                    <tr>
+                                        <td>demande.nom</td>
+                                        <td>demande.nom</td>
+                                        <td>demande.nom</td>
+                                        <td>demande.nom</td>
+                                        <td>demande.nom</td>
+                                        <td>demande.nom</td>
+                                        <td>demande.nom</td>
+                                        <td>demande.nom</td>
+                                        <td>demande.nom</td>
+                                        <td>demande.nom</td>
+                                        <td>demande.nom</td>                                    
+                                    </tr>
+                                    {% endfor %}  #}
+                                <tr>
+                                        <td>demande.nom</td>
+                                        <td>demande.nom</td>
+                                        <td>demande.nom</td>
+                                        <td>demande.nom</td>
+                                        <td>demande.nom</td>
+                                        <td>demande.nom</td>
+                                        <td>demande.nom</td>
+                                        <td>demande.nom</td>
+                                        <td>demande.nom</td>
+                                        <td>demande.nom</td>
+                                        <td>yo</td>                                    
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}

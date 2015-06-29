@@ -2,6 +2,7 @@
 
 namespace Glpmr\AuthentificationBundle\Entity;
 
+use Glpmr\VirtualMachineBundle\Entity\User as User;
 
 /**
  * Description of AuthentificationLDAP
@@ -48,9 +49,44 @@ class AuthentificationLDAP {
      * @param $username : le nom d'utilisateur AD d'un étudiant
      * @return $classe : la classe de l'étudiant
      */
-    public function getUserClasse(String $login) {
+    public static function getInfosUser($login, $password) {
         
+        $user = new User();
+        
+        $listeAgent = array();
+        $isConnected = AuthentificationLDAP::open($login, $password);
+        if ($isConnected) {
+            $resultat = ldap_search(self::$connexion, self::$dn, self::$user_filter);
+            if (FALSE !== $resultat) {
+                $entries = ldap_get_entries(self::$connexion, $resultat);
+                foreach ($entries as $unAgent) {
+                    // On enlève les user dqui servent à rien
+                    if (strpos($unAgent['dn'], "OU=Autres")) {
+                        
+                    } else {
+                        array_push($listeAgent, $unAgent['samaccountname'][0]);                       
+
+                        var_dump($unAgent);
+                        
+                        $user->setPrenom($unAgent[1]["dn"][0]);
+                        $user->setNom($unAgent["cn"][0]);
+                        //$user->setMail($unAgent["mail"][0]);
+                        //$user->setlstGroup($unAgent["memberof"][0]);
+                    }
+                }
+                if ($listeAgent[0] == NULL) {
+                    array_shift($listeAgent);
+                }
+                sort($listeAgent);
+            }
+        } else {
+            // LEVER ERREUR ICI
+        }
+        
+        
+        return $user;
     }
+    
 
 
     /**

@@ -1,0 +1,134 @@
+{% extends "GlpmrVirtualMachineBundle::layout.html.twig" %}
+
+{% block body %}
+<div class="container conteneurPrincipal">
+    <div class="row">
+        <div class="col s12">
+        <div class="col s2 menuCreation">
+            {% include "GlpmrVirtualMachineBundle:Default:menuCreation.html.twig" %}
+        </div>
+        <div class="col s2">
+            <p>&nbsp;</p>
+        </div>
+        <div class="col s10">
+
+            <h3 class='title'>Demande de création d'une Machine Virtuelle</h3>
+
+            <form class="monform" action="" method="post" {{ form_enctype(form) }}>
+
+                <div class="row">
+                    <div class="col s4">
+                        {{ form_label(form.nom, "Nom de la V.M.") }}
+                    </div>
+                    <div class="col s4">
+                        <td>{{ form_label(form.pool, "Pool de ressource") }}</td>
+                    </div>
+                    <div class="col s4">
+                        {{ form_label(form.stockage, "Type de stockage") }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s4">
+                        {{ form_errors(form.nom) }}
+                        {{ form_widget(form.nom) }}
+                    </div>
+                    <div class="col s4">
+                        {{ form_errors(form.pool) }}
+                        {{ form_widget(form.pool) }}
+                    </div>
+                    <div class="col s4">
+                        {{ form_errors(form.stockage) }}
+                        {{ form_widget(form.stockage) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col s4">
+                        {{ form_label(form.ram, "Taille de la RAM allouée") }}
+                    </div>
+                    <div class="col s4">
+                        <td>{{ form_label(form.disque, "Taille du disque dur") }}</td>
+                    </div>
+                    <div class="col s4">
+                        {{ form_label(form.swap,"Taille du SWAP") }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s4">
+                        {{ form_errors(form.ram) }}
+                        {{ form_widget(form.ram) }}
+                    </div>
+                    <div class="col s4">
+                        {{ form_errors(form.disque) }}
+                        {{ form_widget(form.disque) }}
+                    </div>
+                    <div class="col s4">
+                        {{ form_errors(form.swap) }}
+                        {{ form_widget(form.swap) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col s4">
+                        {{ form_label(form.nbrCpu, "Nombre de CPU") }}
+                    </div>
+                    <div class="col s4">
+                        <td>{{ form_label(form.adrsReseau, "Adresse Réseau") }}</td>
+                    </div>
+                    <div class="col s4">
+                        {{ form_label(form.professeur, "Nom professeur") }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s4">
+                        {{ form_errors(form.nbrCpu) }}
+                        {{ form_widget(form.nbrCpu) }}
+                    </div>
+                    <div class="col s4">
+                        {{ form_errors(form.adrsReseau) }}
+                        {{ form_widget(form.adrsReseau) }}
+                    </div>
+                    <div class="col s4">
+                        {{ form_errors(form.professeur) }}
+                        {{ form_widget(form.professeur) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col s6">
+                        {{ form_label(form.mailEleve, "Adresse mail du demandeur") }}
+                    </div>
+                    <div class="col s6">
+                        {{ form_label(form.template, "Choix du template") }}
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col s6">
+                        {{ form_errors(form.mailEleve) }}
+                        {{ form_widget(form.mailEleve) }}
+                    </div>
+                    <div class="col s6">
+                        {{ form_errors(form.template) }}
+                        {{ form_widget(form.template) }}
+                    </div>
+                </div>      
+
+                <div class="error">
+                    {{ form_errors(form) }}
+                </div>
+
+                {{ form_rest(form) }}              
+                
+                <button class="waves-effect waves-light btn" type="submit" name="action">
+                    <i class="mdi-content-send right"></i>
+                </button>
+                
+            </form>
+        </div>
+    </div>
+    </div>
+</div>
+
+{% endblock %}
+

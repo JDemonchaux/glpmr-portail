@@ -1,6 +1,6 @@
-glpmr_admin:
-    resource: "@GlpmrAdminBundle/Resources/config/routing.yml"
-    prefix:   /admin
+glpmr_virtual_machine:
+    resource: "@GlpmrVirtualMachineBundle/Resources/config/routing.yml"
+    prefix:   /Machine
 
 glpmr_peripherique:
     resource: "@GlpmrPeripheriqueBundle/Resources/config/routing.yml"
