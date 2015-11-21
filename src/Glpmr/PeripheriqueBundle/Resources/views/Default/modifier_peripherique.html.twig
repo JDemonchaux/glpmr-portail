@@ -1,0 +1,75 @@
+{% extends "GlpmrAuthentificationBundle::layout.html.twig" %}
+
+{% block body %}
+    <div class="nav-title-wrapper">
+        <h3 class="center-align">Modification d'un p&eacute;riph&eacute;rique</h3>
+    </div>
+
+    <div class="container">
+        <div class="row main">
+            <div class="col s12">
+                <div class="card">
+                    <span class="card-title">Modifier</span>
+                    <div class="card-content">
+                        <form action="{{ path('glpmr_peripherique_modifier') }}" method="POST">
+                            <div class="modal-content">
+                                <div class="col s12">
+                                    <div class="col s1 correct">
+                                        <i class="mdi-action-perm-device-info small"></i>
+                                    </div>
+                                    <div class="col s6">
+                                        <select id="type" name="type" required>
+                                            <option value="{{ peripherique.type }}" disabled selected>{{ peripherique.type }}</option>
+                                            <option value="ordinateur">Ordinateur</option>
+                                            <option value="smartphone">T&eacute;l&eacute;phone</option>
+                                            <option value="tablette">Tablette</option>
+                                            <option value="montre">Montre</option>
+                                        </select>
+                                    </div>
+                                    <div class="col s1 correct">
+                                        <i class="mdi-action-settings-remote small"></i>
+                                    </div>
+                                    <div class="col s4">
+                                        <select id="ip" name="ip" required>
+                                            <option value="" disabled selected>Choisir une IP :</option>
+                                            <option value="{{ peripherique.add_ip }}">{{ peripherique.add_ip }}</option>
+                                            {% for i in 1..254 %}
+                                                <option value="{{ i }}">{{ i }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col s12">
+                                        <div class="input-field">
+                                            <i class="mdi-action-dns prefix"></i>
+                                            <input type="text" id="hostname" class="validate" name="hostname" required value="{{ peripherique.hostname }}"/>
+                                            <label for="hostname">Hostname</label>
+                                        </div>
+                                    </div>
+                                    <div class="col s12">
+                                        <div class="input-field">
+                                            <i class="mdi-hardware-cast prefix"></i>
+                                            <input type="text" class="validate" name="adresse" id="adresseMac" required value="{{ peripherique.add_mac }}"/>
+                                            <label for="adresse">Adresse MAC</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col s12">
+                                        <div class="input-field">
+                                            <i class="mdi-editor-mode-edit prefix"></i>
+                                            <input type="text" id="description" class="validate" name="description" required value="{{ peripherique.description }}"/>
+                                            <label for="description">Description</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer center-align">
+                                <a href="#" class="waves-effect waves-red btn-flat modal-action modal-close">Fermer</a>
+                                <button class="btn-flat waves-effect waves-green" type="submit" name="action">Enregistrer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

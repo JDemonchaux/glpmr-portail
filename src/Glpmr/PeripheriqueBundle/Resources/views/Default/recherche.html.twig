@@ -9,23 +9,28 @@
 			<div class="col s12">
 				<div class="card-panel">
 					<p class="blue-text text-darken-2"><i class="mdi-action-info-outline"></i> Veuillez remplir au moins un champ</p>
-					<form>
+					<form action="{{ path("glpmr_admin_resultat_recherche") }}">
 						<div class="input-field">
-							<input id="username" type="text" />
+							<input id="username" type="text" name="username" />
 							<label for="username">Nom d'utilisateur</label>
 						</div>
 						<div class="input-field">
-							<select>
+							<select name="promotion">
 								<option value="" disabled selected>Choisir une promotion</option>
-								<option value="SIOTP1">SIO TP 1</option>
+								<option value="SIOTP-1">SIO TP 1</option>
+								<option value="SIOTP-2">SIO TP 2</option>
+								<option value="SIOALT-1">SIO ALT 1</option>
+								<option value="SIOALT-2">SIO ALT 2</option>
+								<option value="ASI-1">ASI 1</option>
+								<option value="ASI-2">ASI 2</option>
 							</select>
 						</div>
 						<div class="input-field">
-							<input id="IP" type="text" />
+							<input id="IP" type="text" name="add_ip" />
 							<label for="IP">Adresse IP</label>
 						</div>
 						<div class="input-field">
-							<input id="MAC" type="text" />
+							<input id="MAC" type="text" name="add_mac" />
 							<label for="MAC">Adresse MAC</label>
 						</div>
 						<div class="input-field center-align">
