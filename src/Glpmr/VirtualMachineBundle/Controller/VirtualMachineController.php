@@ -12,7 +12,7 @@ use Glpmr\AuthentificationBundle\Entity\AuthentificationLDAP;
 class VirtualMachineController extends Controller {
 
     public function creationAction(Request $request, $id) {
-
+        
         //On récupère l'id de l'utilisateur et on check si c'est un prof ou un eleve
 //        $eleve = new User();
 //        $eleve = $this->getUserCourant(true);
@@ -45,7 +45,7 @@ class VirtualMachineController extends Controller {
             
             $demande->setProf($prof);
 
-            $demande = $this->getDoctrine()->getManager()->merge($demande);
+            $demande = $this->getDoctrine()->getEntityManager()->merge($demande);
             
             //var_dump($demande);
             
@@ -104,6 +104,9 @@ class VirtualMachineController extends Controller {
 
         // On vérifie que les valeurs entrées sont correctes
         if ($form->isValid()) {
+            
+            $retour = "Rien à voir";
+            
             // On l'enregistre notre objet $advert dans la base de données, par exemple
             $em = $this->getDoctrine()->getManager();
             
@@ -136,7 +139,8 @@ class VirtualMachineController extends Controller {
                 ;
                 $this->get('mailer')->send($message);
 
-
+                $retour = "Création";
+                
                 $eleve = true;
             }
             //Si c'est le prof qui fait la demande
@@ -160,17 +164,16 @@ class VirtualMachineController extends Controller {
                 $password = $demande->getPasswordRoot();
 
                 //On execute la methode qui se connecter en ssh au serveur puis executer le script de création de la vm
-                $retour = exec("C:\wamp\www\Git_Web\web\assets\shell\proxmox.sh" + " " + 
-                        + $osTemplate + " " + $ipAdresse + " " + $hostname + " " + $password, $retour);
+                $retour = exec("C:\wamp\www\Git_Web\web\assets\shell\cmd.bat" . " " . $osTemplate . " " . $ipAdresse . " " . $hostname . " " . $password, $retour);
 
                 var_dump($retour);
             }
 
             // On redirige vers la page de visualisation de la VM nouvellement créée
-            return $this->redirect($this->generateUrl('glpmr_virtual_machine_consultation', array(
-                                'id' => $id,
-                                'eleve' => $eleve,
-                                'retour' => $retour)));
+           return $this->redirect($this->generateUrl('glpmr_virtual_machine_consultation', array(
+                    'id' => $id,
+                    'eleve' => $eleve,
+                    'retour' => $retour))); 
         }
 
         return $this->render('GlpmrVirtualMachineBundle:Default:creation.html.twig', array(
@@ -211,7 +214,7 @@ class VirtualMachineController extends Controller {
             //Si le prof de la BDD n'est pas contenu dans l'AD
             if (!in_array($profBDD, $lstProfAD)) {
 
-                $em = $this->container->get('doctrine')->getManager();
+                $em = $this->container->get('doctrine')->getEntityManager();
                 $connection = $em->getConnection();
                 $statement = $connection->prepare(
                         "DELETE FROM User "
@@ -308,8 +311,16 @@ class VirtualMachineController extends Controller {
         return $user;
     }
 
-    public function consultationAction(Request $request, $id) {
+    public function consultationAction(Request $request) {
 
+        $id = $request->get("id");
+        $eleve = $request->get("eleve");
+        $retour = $request->get("retour");
+                
+        var_dump($id);
+        var_dump($eleve);
+        var_dump($retour);
+        
         $em = $this->getDoctrine()->getManager();
         $DemandeCree = new Demande();
         $DemandeCree = $em->getRepository('GlpmrVirtualMachineBundle:Demande')->findBy(array('id' => $id));
