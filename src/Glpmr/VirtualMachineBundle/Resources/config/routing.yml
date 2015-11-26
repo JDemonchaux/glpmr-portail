@@ -5,10 +5,8 @@ glpmr_virtual_machine_creation:
         id: \d+
     
 glpmr_virtual_machine_consultation:
-    path:     /consultation/{id}
+    path:     /consultation
     defaults: { _controller: GlpmrVirtualMachineBundle:VirtualMachine:consultation }
-    requirements:
-        id: \d+
 
 glpmr_virtual_machine_gestion:
     path:     /gestion
