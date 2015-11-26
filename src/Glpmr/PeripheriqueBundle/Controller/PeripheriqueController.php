@@ -2,6 +2,7 @@
 
 namespace Glpmr\PeripheriqueBundle\Controller;
 
+use Glpmr\AuthentificationBundle\Controller\AuthentificationController;
 use Glpmr\AuthentificationBundle\Entity\AuthentificationLDAP;
 use Glpmr\PeripheriqueBundle\Entity\Peripherique;
 use Glpmr\PeripheriqueBundle\Entity\PeripheriqueDAO;
@@ -11,15 +12,17 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 class PeripheriqueController extends Controller
 {
+
     public function listerAction()
     {
+        AuthentificationController::isConnected();
+
         $dao = new PeripheriqueDAO($this->getDoctrine()->getConnection());
         $peripheriques = $dao->listerUser();
         $session = new Session();
 
         $ips = $dao->getIps($session->get('username'));
-        return $this->render("GlpmrPeripheriqueBundle:Default:manage_mac_addr.html.twig", array("peripheriques" => $peripheriques,
-            "tableau_ip" => $ips));
+        //return $this->render("GlpmrPeripheriqueBundle:Default:manage_mac_addr.html.twig", array("peripheriques" => $peripheriques,"tableau_ip" => $ips));
     }
 
     public function ajouterAction(Request $request)
@@ -134,11 +137,13 @@ class PeripheriqueController extends Controller
     }
 
 
-    public function rechercheAction() {
+    public function rechercheAction()
+    {
         return $this->render('@GlpmrPeripherique/Default/recherche.html.twig');
     }
 
-    public function resultatAction(Request $request) {
+    public function resultatAction(Request $request)
+    {
         $username = $request->get('username');
         $promotion = $request->get('promotion');
         $add_ip = $request->get('add_ip');
@@ -150,11 +155,13 @@ class PeripheriqueController extends Controller
         return $this->render("GlpmrPeripheriqueBundle:Default:resultats.html.twig", array("peripheriques" => $peripheriques));
     }
 
-    public function supprimerGroupeAction() {
+    public function supprimerGroupeAction()
+    {
         return $this->render("@GlpmrPeripherique/Default/admin_suppr_groupe.html.twig");
     }
 
-    public function supprimerGroupeValiderAction(Request $request) {
+    public function supprimerGroupeValiderAction(Request $request)
+    {
         try {
             $promotion = $request->get('promotion');
             $dao = new PeripheriqueDAO($this->getDoctrine()->getConnection());
@@ -163,7 +170,7 @@ class PeripheriqueController extends Controller
             $dao->exportToJson();
 
             $title = "Success!";
-            $message = "Les peripheriques de la classe ".$promotion." ont bien ete supprimes!";
+            $message = "Les peripheriques de la classe " . $promotion . " ont bien ete supprimes!";
         } catch (Exception $e) {
             $title = "Erreur!";
             $message = "Erreur lors de la suppression des peripheriques";
@@ -175,10 +182,10 @@ class PeripheriqueController extends Controller
     }
 
     // Route de test
-    public function testAction() {
+    public function testAction()
+    {
         $dao = new PeripheriqueDAO($this->getDoctrine()->getConnection());
         $dao->exportToJson();
 
     }
-
 }

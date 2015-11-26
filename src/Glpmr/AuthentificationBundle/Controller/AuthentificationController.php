@@ -12,6 +12,10 @@ use Symfony\Component\HttpFoundation\Request;
 class AuthentificationController extends Controller
 {
 
+    public static $home = "http://localhost/glpmr-portail/web/";
+    //public static $home = "https://glpmr-portail.labo.lpmr.info";
+
+
     // Route par défaut, on charge la vue de login
     public function indexAction()
     {
@@ -81,7 +85,17 @@ class AuthentificationController extends Controller
         return $this->redirect($url);
     }
 
-
+    /**
+     * Fonction qui regarde si un user est connecté
+     */
+    public static function isConnected() {
+        $session = new Session();
+        if (NULL == $session->get("username") || "" == $session->get("username")) {
+            CustomError::showMessage("Vous devez etre identifié pour accèder à cette pages");
+            header('Location: '.self::$home);
+            die();
+        }
+    }
 
     // Route d'affichage du compte
 //    public function accountAction() {
