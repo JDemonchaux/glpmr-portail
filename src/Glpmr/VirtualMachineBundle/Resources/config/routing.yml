@@ -1,7 +1,27 @@
 glpmr_virtual_machine_creation:
-    path:     /creation
+    path:     /creation/{id}
     defaults: { _controller: GlpmrVirtualMachineBundle:VirtualMachine:creation }
+    requirements:
+        id: \d+
     
 glpmr_virtual_machine_consultation:
-    path:     /consultation
+    path:     /consultation/{id}
     defaults: { _controller: GlpmrVirtualMachineBundle:VirtualMachine:consultation }
+    requirements:
+        id: \d+
+
+glpmr_virtual_machine_gestion:
+    path:     /gestion
+    defaults: { _controller: GlpmrVirtualMachineBundle:VirtualMachine:gestion }
+
+glpmr_virtual_machine_suppressionIP:
+    path:     /suppressionIP/{id}
+    defaults: { _controller: GlpmrVirtualMachineBundle:VirtualMachine:suppressionIP }
+    requirements:
+        id: \d+
+
+glpmr_virtual_machine_suppressionOS:
+    path:     /suppressionOS/{id}
+    defaults: { _controller: GlpmrVirtualMachineBundle:VirtualMachine:suppressionOS }
+    requirements:
+        id: \d+

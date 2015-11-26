@@ -1,0 +1,13 @@
+{# src/Glpmr/VirtualMachineBundle/Resources/views/Default/email.txt.twig #}
+
+
+Bonjour {{ eleve }},
+<br/>
+<br/>
+Le professeur {{ professeur }} à validé(e) votre demande de création de machine virtuelle.
+<br/>
+<br/>
+Nom de la VM : {{ demande.getNomVM() }}<br/>
+Système d'exploitation : {{ demande.getOS() }}<br/>
+Adresse IP : {{ demande.getAdrsReseau() }}<br/>
+Mot de passe ROOT : {{ demande.getPasswordRoot() }}<br/>

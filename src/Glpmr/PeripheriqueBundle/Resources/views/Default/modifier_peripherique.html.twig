@@ -32,7 +32,7 @@
                                     <div class="col s4">
                                         <select id="ip" name="ip" required>
                                             <option value="" disabled selected>Choisir une IP :</option>
-                                            <option value="{{ peripherique.add_ip }}">{{ peripherique.add_ip }}</option>
+                                            <option value="{{ peripherique.o4 }}">{{ peripherique.o4 }}</option>
                                             {% for i in 1..254 %}
                                                 <option value="{{ i }}">{{ i }}</option>
                                             {% endfor %}
@@ -62,8 +62,8 @@
                                     </div>
                                 </div>
                             </div>
+                            <input type="hidden" name="id" value="{{ peripherique.id }}" />
                             <div class="modal-footer center-align">
-                                <a href="#" class="waves-effect waves-red btn-flat modal-action modal-close">Fermer</a>
                                 <button class="btn-flat waves-effect waves-green" type="submit" name="action">Enregistrer</button>
                             </div>
                         </form>

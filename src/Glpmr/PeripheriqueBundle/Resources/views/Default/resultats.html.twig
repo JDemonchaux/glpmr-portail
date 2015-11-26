@@ -1,10 +1,66 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+{% extends "GlpmrAuthentificationBundle::layout.html.twig" %}
 
-</body>
-</html>
+{% block body %}
+    <div class="nav-title-wrapper">
+        <h3 class="center-align">Module de recherche</h3>
+    </div>
+    <div class="row main">
+    <div class="container">
+    <div class="col s12">
+        <div class="card-panel card-table">
+            <table class="striped responsive-table tableAdr bordered centered z-depth-2">
+                <thead class="bg-bleu-pasteur white-text">
+                <tr>
+                    <th data-field="id" rowspan="2">n&deg;</th>
+                    <th data-field="type" rowspan="2">P&eacute;riph&eacute;rique</th>
+                    <th data-field="nom" rowspan="2">Proprietaire</th>
+                    <th data-field="hostname" rowspan="2">Hostname</th>
+                    <th data-field="description" rowspan="2">Description</th>
+                    <th data-field="adresse" rowspan="2">Adresse autorisée</th>
+                    <th data-field="ip" rowspan="2">Adresse IP</th>
+                    <th data-field="action" colspan="2">Action</th>
+                </tr>
+                <tr>
+                    <th data-field="edit">Modifier</th>
+                    <th data-field="delete">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for peripherique in peripheriques %}
+                    <tr>
+                        <td>{{ peripherique.id }}</td>
+                        {% if peripherique.type == "ordinateur" %}
+                            <td><i class="mdi-hardware-computer small fg-bleu-pasteur tooltipped cursor-pointer"
+                                   data-tooltip="Ordinateur" data-position="left"></i>
+                            </td>
+                        {% elseif peripherique.type == "smartphone" %}
+                            <td><i class="mdi-hardware-smartphone small fg-bleu-pasteur tooltipped cursor-pointer"
+                                   data-tooltip="Téléphone" data-position="left"></i>
+                            </td>
+                        {% elseif peripherique.type == "tablette" %}
+                            <td><i class="mdi-hardware-tablet small fg-bleu-pasteur tooltipped cursor-pointer"
+                                   data-tooltip="Tablette" data-position="left"></i>
+                            </td>
+                        {% elseif peripherique.type == "vm" %}
+                            <td><i class="mdi-hardware-dock small fg-bleu-pasteur tooltipped cursor-pointer"
+                                   data-tooltip="Machine virtuelle" data-position="left"></i>
+                            </td>
+                        {% endif %}
+                        <td>{{ peripherique.proprietaire }}</td>
+                        <td>{{ peripherique.hostname }}</td>
+                        <td>{{ peripherique.description }}</td>
+                        <td>{{ peripherique.add_mac }}</td>
+                        <td>{{ peripherique.add_ip }}</td>
+                        <td><a href="{{ path("glpmr_peripherique_modifier",{'id': peripherique.id} ) }}"
+                               class="btn-floating bg-vert-pasteur waves-effect waves-light"><i
+                                        class="mdi-content-create"></i></a></td>
+                        <td><a data-id="{{ peripherique.id }}" href="#confirmSuppr"
+                               class="modal-trigger btn-floating red waves-effect waves-light suppr"><i
+                                        class="mdi-content-clear"></i></a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

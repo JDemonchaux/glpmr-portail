@@ -13,4 +13,23 @@ glpmr_peripherique_modifier:
 glpmr_peripherique_supprimer:
     path:   /supprimer
     defaults: { _controller: GlpmrPeripheriqueBundle:Peripherique:supprimer }
-    
+
+glpmr_admin_recherche:
+    path:   /recherche
+    defaults: { _controller: GlpmrPeripheriqueBundle:Peripherique:recherche }
+
+glpmr_admin_resultat_recherche:
+    path:   /resultat
+    defaults: { _controller: GlpmrPeripheriqueBundle:Peripherique:resultat }
+
+glpmr_admin_supprimer_groupe:
+    path:     /supprimerGroupe
+    defaults: { _controller: GlpmrPeripheriqueBundle:Peripherique:supprimerGroupe }
+
+glpmr_admin_supprimer_groupe_valider:
+    path:     /supprimerGroupeValider
+    defaults: { _controller: GlpmrPeripheriqueBundle:Peripherique:supprimerGroupeValider }
+
+glpmr_test:
+    path: /test
+    defaults: { _controller: GlpmrPeripheriqueBundle:Peripherique:test }

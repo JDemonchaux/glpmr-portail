@@ -2,7 +2,7 @@
 
 {% block body %}
     <div class="nav-title-wrapper">
-        <h3 class="center-align">Ajout d'un p&eacute;riph&eacute;rique</h3>
+        <h3 class="center-align">Suppression d'un p&eacute;riph&eacute;rique</h3>
     </div>
 
     <div class="container">
@@ -10,8 +10,12 @@
             <div class="col s12">
                 <div class="card">
                     <span class="card-title">{{ title }}</span>
+
                     <div class="card-content">
                         {{ message }}
+                        <span class="right">
+                            <a href="{{ path("glpmr_peripherique_gestion") }}">Retour</a>
+                        </span>
                     </div>
                 </div>
             </div>

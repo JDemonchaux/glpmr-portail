@@ -1,0 +1,63 @@
+{% extends "GlpmrVirtualMachineBundle::layout.html.twig" %}
+
+{% block body %}
+    <br/>
+    <br/>          
+
+    <div class="container">
+        <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+                <span class="card-title orange-text">Cette demande vient d'être validée!</span>
+                <br/><br/>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="petit">
+                                <b>Nom de l'élève :</b> 
+                            </td>
+                            <td class="petit">                            
+                                {{ demande.getIdentitee()}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="petit">
+                                <b>Nom de la VM :</b>
+                            </td>
+                            <td class="petit">
+                                {{ demande.getNomVM()}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="petit">
+                                <b>Système d'exploitation :</b>
+                            </td>
+                            <td class="petit">
+                                {{ demande.getOS() }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="petit">
+                                <b>Mot de passe ROOT :</b>
+                            </td>
+                            <td class="petit">
+                                {{ demande.getPasswordRoot() }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="petit">
+                                <b>Adresse IP :</b>
+                            </td>     
+                            <td class="petit">
+                                {{ demande.getAdrsReseau() }}
+                            </td>
+                        </tr>                                    
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-action">
+                <a href="{{ lien }}">Nouvelle demande</a>
+            </div>
+        </div>        
+    </div>    
+
+{% endblock %}

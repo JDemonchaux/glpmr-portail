@@ -1,0 +1,60 @@
+  
+<li class="collection-header"><h4>Adresses IP disponnibles</h4></li>
+    {% for key in listeAdresseIp %} 
+    <li class="collection-item">
+        <div>{{key.getAdresse()}}
+            <a onClick="return false;" href="{{ path('glpmr_virtual_machine_suppressionIP', {'id': key.getId()}) }}" class="btDelete secondary-content">
+                <i class="fa fa-trash fa-lg"></i>
+            </a>
+            <img class="loaderAJAX" src="../../../../../../web/assets/images/ajax_loader_blue_512.gif" alt=""/>
+        </div>
+    </li>
+{% endfor %}                   
+<li class="collection-item">
+    <div class="inline">                       
+        <div class="row">
+            <form action="{{ path('glpmr_virtual_machine_gestion') }}" method="post">
+                <div class="input-field col s9">
+                    <input id="newAdresseIp" name="newAdresseIp" type="text" class="validate">
+                    <label for="newAdresseIp">Nouvelle adresse IP</label>
+                </div>
+                <div class="input-field col s3">
+                    <button class="waves-effect waves-light btn right" type="submit" name="action">
+                        <i class="fa fa-save fa-2x"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</li>
+<script>
+        $('.btDelete').on('click', function () {
+            var id = $(this).attr("data-id");
+            var url = $(this).attr("href");
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: id,
+                beforeSend: function() {
+                  
+                  var image = $(".loaderAJAX");
+                        var downloadingImage = new Image();
+                        downloadingImage.onload = function(){
+                        image.src = "//web/assets/images/ajax_loader_blue_512.gif";
+                        };
+                        
+                       
+                  
+                  
+                },
+                success: function (data) {
+                    // cache le loader
+                    $("ul.ip").html(data);
+                },
+                error: function (err) {
+                    // cache le loader
+                    $("ul.ip").append(err);
+                }
+            })
+        });
+</script>

@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'phpDocumentor' => array($vendorDir . '/phpdocumentor/reflection-docblock/src'),
     'Twig_Extensions_' => array($vendorDir . '/twig/extensions/lib'),
     'Twig_' => array($vendorDir . '/twig/twig/lib'),
     'Symfony\\' => array($vendorDir . '/symfony/symfony/src'),
@@ -15,8 +16,8 @@ return array(
     'Sensio\\Bundle\\DistributionBundle' => array($vendorDir . '/sensio/distribution-bundle'),
     'SensioLabs\\Security' => array($vendorDir . '/sensiolabs/security-checker'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
+    'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
     'Incenteev\\ParameterHandler' => array($vendorDir . '/incenteev/composer-parameter-handler'),
-    'IMAG\\LdapBundle' => array($vendorDir . '/imag/ldap-bundle'),
     'Doctrine\\ORM\\' => array($vendorDir . '/doctrine/orm/lib'),
     'Doctrine\\DBAL\\' => array($vendorDir . '/doctrine/dbal/lib'),
     'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/lib'),

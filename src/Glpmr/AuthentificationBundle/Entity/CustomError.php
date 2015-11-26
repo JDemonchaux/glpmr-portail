@@ -1,15 +1,13 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: jerom
- * Date: 18/09/2015
- * Time: 11:23
- */
 
 namespace Glpmr\AuthentificationBundle\Entity;
-
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class CustomError
 {
-
+    static function showMessage($message)
+    {
+        $session = new Session();
+        $session->getFlashBag()->add("notification", $message);
+    }
 }

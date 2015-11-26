@@ -2,18 +2,5 @@ glpmr_admin_homepage:
     path:     /
     defaults: { _controller: GlpmrAdminBundle:Admin:listerAll }
 
-glpmr_admin_supprimer_groupe:
-    path:     /supprimerGroupe
-    defaults: { _controller: GlpmrAdminBundle:Admin:supprimerGroupe }
+
     
-glpmr_admin_supprimer_groupe_valider:
-    path:     /supprimerGroupeValider
-    defaults: { _controller: GlpmrAdminBundle:Admin:supprimerGroupeValider }
-    
-glpmr_admin_recherche:
-    path:     /recherche
-    defaults: { _controller: GlpmrAdminBundle:Admin:recherche }
-    
-glpmr_admin_resultat:
-    path:     /resultat
-    defaults: { _controller: GlpmrAdminBundle:Admin:resultat }

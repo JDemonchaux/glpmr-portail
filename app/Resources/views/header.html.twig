@@ -8,5 +8,12 @@
 
     <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/materialize.css') }}" media="screen,projection">
     <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/design.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/toastr.min.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/font-awesome.min.css') }}">
 </head>
 <body>
+{% for flashMessage in app.session.flashbag.get('notification') %}
+<div class="notification" data-message="{{ flashMessage }}">
+
+</div>
+{% endfor %}

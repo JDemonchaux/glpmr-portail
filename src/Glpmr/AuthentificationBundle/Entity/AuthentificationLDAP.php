@@ -3,56 +3,67 @@
 namespace Glpmr\AuthentificationBundle\Entity;
 
 use Glpmr\VirtualMachineBundle\Entity\User as User;
+use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * Description of AuthentificationLDAP
  *
  * @author Jérôme
  */
-class AuthentificationLDAP {
+class AuthentificationLDAP
+{
 
     private static $baseDN = "dc=labo,dc=lpmr,dc=info";
-    private static $ldapServer = "PROD-DC-01";
-//  private static $ldapServer = "172.16.0.100";
+//    private static $ldapServer = "PROD-DC-01";
+    private static $ldapServer = "172.16.0.100";
     private static $ldapServerPort = 389;
-    private static $dn = 'cn=users,dc=labo,dc=lpmr,dc=info';
+    private static $dn = "dc=labo,dc=lpmr,dc=info";
+    public static $user_filter = "(objectCategory=user)";
     public static $connexion;
 
-    
+
     /**
      * Fonction qui ouvre la connexion AD et valide le login.
-     * @param type $login : le login de l'utilisateur
-     * @param type $pass : le mot de passe de l'utilisateur
-     * @return boolean $ldapbind : true si connection OK et false sinon
+     * @param type $login : le login de l'utilisateur.
+     * @param type $pass : le mot de passe de l'utilisateur.
+     * @return boolean $ldapbind : true si connection OK et false sinon.
      */
-    public static function open($login, $pass) {
-        //ldap_set_option(self::$connexion, LDAP_OPT_PROTOCOL_VERSION, 3);
-        // Initialisation de la connexion
-        self::$connexion = ldap_connect(self::$ldapServer, self::$ldapServerPort);
+    public static function open($login, $pass)
+    {
+
+//        ldap_set_option(self::$connexion, LDAP_OPT_PROTOCOL_VERSION, 3);
+//         Initialisation de la connexion
+        self::$connexion = @ldap_connect(self::$ldapServer, self::$ldapServerPort);
         if (self::$connexion) {
-            // Connexion au serveur LDAP avec authentification
-            $ldapbind = ldap_bind(self::$connexion, $login, $pass);
+            ldap_set_option(self::$connexion, LDAP_OPT_REFERRALS, 0);
+            ldap_set_option(self::$connexion, LDAP_OPT_PROTOCOL_VERSION, 3);
+
+            // Connexion au serveur DAP avec authentification
+            $ldapbind = @ldap_bind(self::$connexion, $login, $pass);
+        } else {
+            $ldapbind = FALSE;
         }
         return $ldapbind;
-    }    
-    
+    }
+
     /**
      * Fonction qui ferme la liaison Active Directory
      */
-    public static function close() {
+    public static function close()
+    {
         ldap_close(self::$connexion);
     }
 
-    
+
     /**
      * Fonction qui permet de connaitre la classe d'un étudiant
      * @param $username : le nom d'utilisateur AD d'un étudiant
      * @return $classe : la classe de l'étudiant
      */
-    public static function getInfosUser($login, $password) {
-        
+    public static function getInfosUser($login, $password)
+    {
         $user = new User();
-        
+
         $listeAgent = array();
         $isConnected = AuthentificationLDAP::open($login, $password);
         if ($isConnected) {
@@ -60,14 +71,12 @@ class AuthentificationLDAP {
             if (FALSE !== $resultat) {
                 $entries = ldap_get_entries(self::$connexion, $resultat);
                 foreach ($entries as $unAgent) {
-                    // On enlève les user dqui servent à rien
+                    // On enlève les user qui servent à rien
                     if (strpos($unAgent['dn'], "OU=Autres")) {
-                        
-                    } else {
-                        array_push($listeAgent, $unAgent['samaccountname'][0]);                       
 
-                        var_dump($unAgent);
-                        
+                    } else {
+                        array_push($listeAgent, $unAgent['samaccountname'][0]);
+
                         $user->setPrenom($unAgent[1]["dn"][0]);
                         $user->setNom($unAgent["cn"][0]);
                         //$user->setMail($unAgent["mail"][0]);
@@ -82,11 +91,9 @@ class AuthentificationLDAP {
         } else {
             // LEVER ERREUR ICI
         }
-        
-        
+
         return $user;
     }
-    
 
 
     /**
@@ -100,16 +107,163 @@ class AuthentificationLDAP {
     {
         self::open($login, $password);
 
+        $isAdmin = FALSE;
+
         // Search AD
-        $results = ldap_search(self::$connexion, self::$dn, "(samaccountname=" . $login . ")", array("memberof", "adm_portail"));
+        $results = ldap_search(self::$connexion, self::$dn, "(samaccountname=$login)", array("memberof", "primarygroupid"));
         $entries = ldap_get_entries(self::$connexion, $results);
-        if ($entries['count'] == 0) {
-            return false;
-        } else {
-            return true;
+
+        $groups = $entries[0]['memberof'][1];
+
+        // On regarde si il y a "Admins du domaine" dans la liste des groupes
+        if (TRUE == strpos($groups, 'Admins du domaine')) {
+            $isAdmin = TRUE;
         }
+
+        return $isAdmin;
     }
-   
-    
-    
+
+
+    /**
+     * Fonction qui renvoie la promotion de l'elève
+     * @seealso SAD : schéma de l'AD pour les OU promotions
+     */
+    public static function getPromotion($login, $password)
+    {
+        $promotion = null;
+
+        $isConnected = AuthentificationLDAP::open($login, $password);
+        if ($isConnected) {
+            $filter = "(sAMAccountName=" . $login . ")";
+            $resultat = ldap_search(self::$connexion, self::$dn, $filter);
+            if (FALSE !== $resultat) {
+                $user = ldap_get_entries(self::$connexion, $resultat);
+                $user = $user[0];
+
+                $split = explode(",", $user["distinguishedname"][0]);
+                // Ici pour choppé le mail
+                //$user['mail'][0]
+                //TODO : chopper l'OU des profs, et repasser en REGEX
+
+
+                foreach ($split as $boutDeChaine) {
+                    if (strpos($boutDeChaine, "SIOTP ")) {
+                        $promotion = $boutDeChaine;
+                    } else if (strpos($boutDeChaine, "SIOALT ")) {
+                        $promotion = $boutDeChaine;
+                    } else if (strpos($boutDeChaine, "ASI ")) {
+                        $promotion = $boutDeChaine;
+                    }
+                }
+                // Affiche le promotion du style : ASI 2016
+                $promo = str_replace("OU=", "", $promotion);
+
+                if (!$promo == '') {
+                    // On transforme ça en ASI 1 ou 2 suivant l'année.
+                    $promo = explode(" ", $promo);
+                    $annee = self::calculPromotion($promo[1]);
+                    $promo_etudiant = $promo[0] . " " . $annee;
+                } else {
+                    $promo_etudiant = "professeur";
+                }
+            }
+        } else {
+            // LEVER ERREUR ICI
+        }
+        return $promo_etudiant;
+    }
+
+    /**
+     * Fonction qui calcul la session de l'eleve suivant l'année de sa promo
+     * @param $annee : l'annéee de la promo de l'eleve
+     */
+    public static function calculPromotion($annee)
+    {
+        $date = new \DateTime();
+        $year = $date->format("Y");
+        $month = $date->format("m");
+        $session = "";
+
+        $year = $year + 0.5;
+
+        if ($month > 8) {
+            $annee = $annee + 0.5;
+        }
+
+        if ($year - $annee < 2) {
+            $session = 2;
+        } else {
+            $session = 1;
+        }
+
+        var_dump($session);
+
+        return $session;
+    }
+
+    public static function getListeProf($login, $password)
+    {
+        $dn = "ou=Professeurs,ou=utilisateurs,dc=labo,dc=lpmr,dc=info";
+
+        $lstProf = array();
+
+        self::open($login, $password);
+
+        // Search AD
+        $results = ldap_search(self::$connexion, $dn, '(&(objectClass=user))');
+        $entries = ldap_get_entries(self::$connexion, $results);
+        foreach ($entries as $res) {
+            //var_dump($res);
+            if (!(isset($res['mail'][0]) && isset($res['sn'][0]) && isset($res['givenname'][0]))) {
+
+            } else {
+                $prof = new User();
+                $prof->setMail($res['mail'][0]);
+                $prof->setNom($res['sn'][0]);
+                $prof->setPrenom($res['givenname'][0]);
+                //var_dump($prof);
+                array_push($lstProf, $prof);
+            }
+        }
+
+        return $lstProf;
+    }
+
+    public static function getUserCourant($login, $password, $isEleve)
+    {
+        $dn = "dc=labo,dc=lpmr,dc=info";
+
+        $user = new User();
+
+        self::open($login, $password, $isEleve);
+
+        //Si c'est une prof qui s'est connecté on change le filtre
+        if (!$isEleve) {
+            $dn = "ou=Professeurs,ou=utilisateurs,dc=labo,dc=lpmr,dc=info";
+            //var_dump('On est un prof');
+        } else {
+            //var_dump('On est un eleve');
+        }
+
+        $results = ldap_search(self::$connexion, $dn, self::$user_filter);
+        $entries = ldap_get_entries(self::$connexion, $results);
+        //var_dump($entries);
+        foreach ($entries as $res) {
+            if (!(isset($res['mail'][0]) && isset($res['sn'][0])
+                    && isset($res['givenname'][0]) && isset($res['samaccountname'][0]))
+                || $res['samaccountname'][0] != $login
+            ) {
+                //var_dump($res);
+            } else {
+                $user->setMail($res['mail'][0]);
+                $user->setNom($res['sn'][0]);
+                $user->setPrenom($res['givenname'][0]);
+                //var_dump($user);
+            }
+            //var_dump($res);
+        }
+
+        return $user;
+    }
+
 }

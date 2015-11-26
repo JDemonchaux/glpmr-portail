@@ -1,0 +1,101 @@
+{% extends "GlpmrVirtualMachineBundle::layout.html.twig" %}
+
+{% block body %}        
+
+    <br/><br/>
+
+
+    <div class="container">            
+
+
+        <ul class="collection with-header ip">
+            <li class="collection-header"><h4>Adresses IP disponibles</h4></li>
+                {% for key in listeAdresseIp %} 
+                <li class="collection-item">
+                    <div>{{key.getAdresse()}}
+                        <a onClick="return false;" href="{{ path('glpmr_virtual_machine_suppressionIP', {'id': key.getId()}) }}" class="btDelete secondary-content">
+                            <i class="fa fa-trash fa-lg"></i>
+                        </a>
+                    </div>
+                </li>
+            {% endfor %}                   
+            <li class="collection-item">
+                <div class="inline">                       
+                    <div class="row">
+                        <form action="{{ path('glpmr_virtual_machine_gestion') }}" method="post">
+                            <div class="input-field col s9">
+                                <input id="newAdresseIp" name="newAdresseIp" type="text" class="validate">
+                                <label for="newAdresseIp">Nouvelle adresse IP</label>
+                            </div>
+                            <div class="input-field col s3">
+                                <button class="waves-effect waves-light btn right" type="submit" name="action">
+                                    <i class="fa fa-save fa-2x"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <br/>
+
+        <ul class="collection with-header">
+            <li class="collection-header"><h4>OS disponibles</h4></li>
+                {% for key in listeOS %} 
+                <li class="collection-item">
+                    <div>{{key.getLibelleUser()}}
+                        <a href="{{ path('glpmr_virtual_machine_suppressionOS', {'id': key.getId()}) }}" class="secondary-content">
+                            <i class="fa fa-trash fa-lg"></i>
+                        </a>
+                    </div>
+                </li>
+            {% endfor %} 
+            <br/>
+            <li class="collection-item">                
+                <ul class="collapsible" data-collapsible="accordion">
+                    <li>
+                        <div class="collapsible-header">
+                            <div>Ajouter un OS
+                                <a href="#!" class="secondary-content">
+                                    <i class="fa fa-plus fa-lg"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="collapsible-body">
+                            <br/>
+                            <div class="row" style="margin-left: 0.5%;margin-right: 0.5%;">
+                                <form action="{{ path('glpmr_virtual_machine_gestion') }}" method="post">
+                                    <div class="input-field col s6">                                    
+                                        <input name="libelle_utilisateur" id="libelle_utilisateur" type="text" class="validate">
+                                        <label for="libelle_utilisateur">Intitulé pour utilisateurs</label>
+                                    </div>
+
+                                    <div class="input-field col s4">
+                                        <input name="libelle_proxmox" id="libelle_proxmox" type="text" class="validate">
+                                        <label for="libelle_proxmox">Identifiant Proxmox</label>
+                                    </div>
+                                    <div class="input-field col s2">
+                                        <button class="waves-effect waves-light btn right" type="submit" name="action">
+                                            <i class="fa fa-save fa-2x"></i>
+                                        </button>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+            </li>
+        </ul>       
+
+        <div>
+            <br/><br/><br/><br/>
+            &nbsp; 
+        </div>
+    </div>
+
+
+{% endblock %}
+

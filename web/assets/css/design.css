@@ -1,3 +1,42 @@
+/****
+** AJUIF
+*******/
+.loaderAJAX{
+	width: 504px;
+	height: 504px;
+	/*background: url(loading.gif) 50% no-repeat;
+    border: 1px solid black;
+    border-radius: 5px;*/
+}
+
+
+﻿.monformulaire{
+	border:1px solid #C8F7C5 !important;
+	border-radius: 6px;
+	background-color: black;
+	padding-top: 10px !important;
+	padding-bottom: 50px !important;
+}
+
+.coloneFormulaire {
+	width: 2rem !important;
+}
+
+.borderrr{
+	border:1px solid black !important;
+}
+
+.containerSkrface {
+	margin: 50% !important;
+	border:1px solid black !important;
+}
+
+
+/***
+* Jdemonch
+****/
+
+
 body {
 	/*background: url('../images/bg.png') repeat;*/
 }
@@ -165,4 +204,20 @@ thead > tr > th {
 
 .modal-content {
 	padding:15px !important;
+}
+
+
+#toast-container {
+	position:absolute;
+	width:100%;
+	left:0;
+	right:0;
+}
+
+#toast-container > div {
+	opacity:1 !important;
+}
+
+#toast-container.toast-bottom-full-width > div, #toast-container.toast-top-full-width > div {
+	width:100% !important;
 }
