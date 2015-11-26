@@ -13,7 +13,7 @@
 
     $.fn.addrMac = function(config, callback)
     {
-        $('body').append('<input id="keypress'+$(this).attr("id")+'" name="name" value="" type="text">');
+        //$('body').append('<input id="keypress'+$(this).attr("id")+'" name="name" value="" type="text">');
         return this.keypress($.fn.addrMac.keypress).keyup($.fn.addrMac.keyup);
 
     };
