@@ -27,6 +27,7 @@ class PeripheriqueController extends Controller
 
     public function ajouterAction(Request $request)
     {
+        AuthentificationController::isConnected();
         try {
             // Vérification de l'unicité de l'adresse mac
             $dao = new PeripheriqueDAO($this->getDoctrine()->getConnection());
@@ -68,6 +69,7 @@ class PeripheriqueController extends Controller
 
     public function supprimerAction(Request $request)
     {
+        AuthentificationController::isConnected();
         try {
             $id = $request->get("id");
             $obj = new Peripherique();
@@ -90,6 +92,7 @@ class PeripheriqueController extends Controller
 
     public function modifierAction(Request $request)
     {
+        AuthentificationController::isConnected();
         if ($this->get('request')->getMethod() == "POST") {
             $session = new Session();
             $dao = new PeripheriqueDAO($this->getDoctrine()->getConnection());
@@ -139,11 +142,13 @@ class PeripheriqueController extends Controller
 
     public function rechercheAction()
     {
+        AuthentificationController::isConnected();
         return $this->render('@GlpmrPeripherique/Default/recherche.html.twig');
     }
 
     public function resultatAction(Request $request)
     {
+        AuthentificationController::isConnected();
         $username = $request->get('username');
         $promotion = $request->get('promotion');
         $add_ip = $request->get('add_ip');
@@ -157,11 +162,13 @@ class PeripheriqueController extends Controller
 
     public function supprimerGroupeAction()
     {
+        AuthentificationController::isConnected();
         return $this->render("@GlpmrPeripherique/Default/admin_suppr_groupe.html.twig");
     }
 
     public function supprimerGroupeValiderAction(Request $request)
     {
+        AuthentificationController::isConnected();
         try {
             $promotion = $request->get('promotion');
             $dao = new PeripheriqueDAO($this->getDoctrine()->getConnection());

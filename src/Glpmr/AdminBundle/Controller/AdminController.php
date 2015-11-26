@@ -12,6 +12,7 @@ class AdminController extends Controller
     *   Affiche un formulaire de recherche (par IP/MAC/nom d'étudiant/hostname)
     */
     public function rechercheAction() {
+        AuthentificationController::isConnected();
         return $this->render('GlpmrAuthentificationBundle:Default:recherche.html.twig');
     }
         
