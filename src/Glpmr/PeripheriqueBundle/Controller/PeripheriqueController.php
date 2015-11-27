@@ -22,7 +22,7 @@ class PeripheriqueController extends Controller
         $session = new Session();
 
         $ips = $dao->getIps($session->get('username'));
-        //return $this->render("GlpmrPeripheriqueBundle:Default:manage_mac_addr.html.twig", array("peripheriques" => $peripheriques,"tableau_ip" => $ips));
+        return $this->render("GlpmrPeripheriqueBundle:Default:manage_mac_addr.html.twig", array("peripheriques" => $peripheriques,"tableau_ip" => $ips));
     }
 
     public function ajouterAction(Request $request)
