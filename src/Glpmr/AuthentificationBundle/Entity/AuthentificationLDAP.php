@@ -56,11 +56,6 @@ class AuthentificationLDAP
     }
 
 
-
-
-
-
-
     /**
      * Fonction qui permet de connaitre la classe d'un étudiant
      * @param $username : le nom d'utilisateur AD d'un étudiant
@@ -119,21 +114,13 @@ class AuthentificationLDAP
         $results = ldap_search(self::$connexion, self::$dn, "(samaccountname=$login)", array("memberof", "primarygroupid"));
         $entries = ldap_get_entries(self::$connexion, $results);
 
-        if (TRUE == strpos($entries[0]['memberof'][0], "Promotion")) {
-            $groups = $entries[0]['memberof'][0];
-        }
-        else if (TRUE == strpos($entries[0]['memberof'][1], "Promotion")) {
-            $groups = $entries[0]['memberof'][1];
-        }
-        else {
-            // Utilisateur dans aucune promo
-            $groups = "";
-        }
-
-
-        // On regarde si il y a "Admins du domaine" dans la liste des groupes
-        if (TRUE == strpos($groups, 'Admins du domaine')) {
+        if (TRUE == strpos($entries[0]['memberof'][0], "Admins du domaine")) {
             $isAdmin = TRUE;
+        } else if (TRUE == strpos($entries[0]['memberof'][1], "Admins du domaine")) {
+            $isAdmin = TRUE;
+        } else {
+            // Utilisateur dans aucune promo
+            $isAdmin = false;
         }
 
         return $isAdmin;

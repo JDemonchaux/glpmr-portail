@@ -52,10 +52,11 @@ class AuthentificationController extends Controller
                 $promotion = AuthentificationLDAP::getPromotion($login, $pass);
                 $session->set('promotion', $promotion);
 
-                var_dump($promotion);
 
                 // Ainsi qu'un boolean pour savoir si l'utilisateur est admin
                 $isAdmin = AuthentificationLDAP::isAdmin($login, $pass);
+
+                var_dump($isAdmin);
 
                 if ($isAdmin) {
                     $session->set("admin", true);
