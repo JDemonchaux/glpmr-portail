@@ -63,7 +63,7 @@ class PeripheriqueController extends Controller
             echo $e->getMessage();
         }
 
-        return $this->render("GlpmrPeripheriqueBundle:Default:ajouter_peripherique.html.twig", array("title" => $title, "message" => $message));
+       return $this->render("GlpmrPeripheriqueBundle:Default:ajouter_peripherique.html.twig", array("title" => $title, "message" => $message));
 
     }
 

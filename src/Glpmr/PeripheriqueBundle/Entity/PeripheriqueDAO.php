@@ -13,7 +13,7 @@ class PeripheriqueDAO
 {
     private $table_name = "radmacadd";
     private $connexion;
-    private $url_pfsense = "https://10.254.254.254/json-autoconfig/push.php";
+    private $url_pfsense = "https://172.16.254.254/json-autoconfig/push.php";
 
     public function __construct($dbalConnection)
     {
@@ -207,7 +207,7 @@ class PeripheriqueDAO
 
             $json = json_encode($data);
 
-//        var_dump($json);
+            var_dump($json);
 
             // POST TO URL
             $ch = curl_init($this->url_pfsense);
@@ -222,10 +222,10 @@ class PeripheriqueDAO
             );
 
             $result = curl_exec($ch);
-//        echo "<br />";
-//        echo curl_error($ch) . " - " . curl_errno($ch);
-//        echo "<br />";
-//        var_dump(curl_getinfo($ch));
+            //echo "<br />";
+            //echo "Error : " . curl_error($ch) . " | code err : " . curl_errno($ch);
+            //echo "<br />";
+            //var_dump(curl_getinfo($ch));
             curl_close($ch);
 
         } catch (Exception $e) {
