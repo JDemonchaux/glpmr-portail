@@ -13,7 +13,7 @@ class PeripheriqueDAO
 {
     private $table_name = "radmacadd";
     private $connexion;
-    private $url_pfsense = "https://192.168.1.100/json-autoconfig/push.php";
+    private $url_pfsense = "https://10.254.254.254/json-autoconfig/push.php";
 
     public function __construct($dbalConnection)
     {
@@ -202,7 +202,7 @@ class PeripheriqueDAO
             $rows = $stmt->fetchAll();
 
 
-            $data["key"] = "azerty39";
+            $data["key"] = "@s12";
             $data["devices"] = $rows;
 
             $json = json_encode($data);
