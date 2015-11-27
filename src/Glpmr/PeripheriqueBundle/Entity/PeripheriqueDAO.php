@@ -207,7 +207,7 @@ class PeripheriqueDAO
 
             $json = json_encode($data);
 
-            var_dump($json);
+            //var_dump($json);
 
             // POST TO URL
             $ch = curl_init($this->url_pfsense);
