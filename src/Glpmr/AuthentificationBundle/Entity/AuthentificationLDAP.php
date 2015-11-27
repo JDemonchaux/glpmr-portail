@@ -4,6 +4,7 @@ namespace Glpmr\AuthentificationBundle\Entity;
 
 use Glpmr\VirtualMachineBundle\Entity\User as User;
 use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Description of AuthentificationLDAP
@@ -113,11 +114,13 @@ class AuthentificationLDAP
         $results = ldap_search(self::$connexion, self::$dn, "(samaccountname=$login)", array("memberof", "primarygroupid"));
         $entries = ldap_get_entries(self::$connexion, $results);
 
-        $groups = $entries[0]['memberof'][1];
-
-        // On regarde si il y a "Admins du domaine" dans la liste des groupes
-        if (TRUE == strpos($groups, 'Admins du domaine')) {
+        if (TRUE == strpos($entries[0]['memberof'][0], "Admins du domaine")) {
             $isAdmin = TRUE;
+        } else if (TRUE == strpos($entries[0]['memberof'][1], "Admins du domaine")) {
+            $isAdmin = TRUE;
+        } else {
+            // Utilisateur dans aucune promo
+            $isAdmin = false;
         }
 
         return $isAdmin;
