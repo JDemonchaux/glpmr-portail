@@ -131,7 +131,9 @@ class PeripheriqueController extends Controller
                 $peripherique->setId($id);
                 $dao = new PeripheriqueDAO($this->getDoctrine()->getConnection());
                 $obj = $dao->listerOne($peripherique);
-                return $this->render("@GlpmrPeripherique/Default/modifier_peripherique.html.twig", array("peripherique" => $obj));
+                $session = new Session();
+                $ips = $dao->getIps($session->get('username'));
+                return $this->render("@GlpmrPeripherique/Default/modifier_peripherique.html.twig", array("peripherique" => $obj, "tableau_ip" => $ips));
 
             } catch (Exception $e) {
 

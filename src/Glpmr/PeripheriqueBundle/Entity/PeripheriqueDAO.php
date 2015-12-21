@@ -26,7 +26,7 @@ class PeripheriqueDAO
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue("id", $obj->getId());
         $stmt->bindValue("hostname", $obj->getHostname());
-        $stmt->bindValue("description", $obj->getHostname());
+        $stmt->bindValue("description", $obj->getDescription());
         $stmt->bindValue("type", $obj->getType());
         $stmt->bindValue("add_mac", $obj->getAdd_mac());
         $stmt->bindValue("add_ip", $obj->getAdd_ip());
@@ -54,7 +54,7 @@ class PeripheriqueDAO
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue("id", $obj->getId());
         $stmt->bindValue("hostname", $obj->getHostname());
-        $stmt->bindValue("description", $obj->getHostname());
+        $stmt->bindValue("description", $obj->getDescription());
         $stmt->bindValue("type", $obj->getType());
         $stmt->bindValue("add_mac", $obj->getAdd_mac());
         $stmt->bindValue("add_ip", $obj->getAdd_ip());

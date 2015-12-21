@@ -42,7 +42,7 @@
             // allow or deny Ctrl+V (paste), Shift+Ins
             if((e.ctrlKey && key == 118 /* firefox */) || (e.ctrlKey && key == 86) /* opera */ ||
                 (e.shiftKey && key == 45)) { return true; }
-            if (key>47 && key<57) {
+            if (key>47 && key<58) {
                 $('#keypresshex').trigger(e);
                 return true
             }if (key>96 && key<103) {
