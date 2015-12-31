@@ -19,7 +19,7 @@
                                     </div>
                                     <div class="col s6">
                                         <select id="type" name="type" required>
-                                            <option value="{{ peripherique.type }}" disabled selected>{{ peripherique.type }}</option>
+                                            <option value="{{ peripherique.type }}" selected>{{ peripherique.type }}</option>
                                             <option value="ordinateur">Ordinateur</option>
                                             <option value="smartphone">T&eacute;l&eacute;phone</option>
                                             <option value="tablette">Tablette</option>
@@ -31,8 +31,8 @@
                                     </div>
                                     <div class="col s4">
                                         <select id="ip" name="ip" required>
-                                            <option value="" disabled selected>Choisir une IP :</option>
-                                            <option value="{{ peripherique.o4 }}">{{ peripherique.o4 }}</option>
+                                            <option value="" disabled>Choisir une IP :</option>
+                                            <option value="{{ peripherique.o4 }}" selected>{{ peripherique.o4 }}</option>
                                             {% for i in 1..254 %}
                                                 <option value="{{ i }}">{{ i }}</option>
                                             {% endfor %}
