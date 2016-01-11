@@ -29,7 +29,7 @@ class PeripheriqueController extends Controller
     {
         AuthentificationController::isConnected();
         try {
-            // Vérification de l'unicité de l'adresse mac
+            // Vï¿½rification de l'unicitï¿½ de l'adresse mac
             $dao = new PeripheriqueDAO($this->getDoctrine()->getConnection());
             $add = $request->get("adresse");
             $count = $dao->countMac($add);
@@ -113,6 +113,7 @@ class PeripheriqueController extends Controller
             $obj->setType($request->get("type"));
             $obj->setDescription($request->get("description"));
             $obj->setProprietaire($session->get("username"));
+            $obj->setProprietaire_classe($session->get("promotion"));
 
             $dao->ajouter($obj);
 
