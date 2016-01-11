@@ -4,6 +4,7 @@ namespace Glpmr\PeripheriqueBundle\Controller;
 
 use Glpmr\AuthentificationBundle\Controller\AuthentificationController;
 use Glpmr\AuthentificationBundle\Entity\AuthentificationLDAP;
+use Glpmr\AuthentificationBundle\Entity\CustomError;
 use Glpmr\PeripheriqueBundle\Entity\Peripherique;
 use Glpmr\PeripheriqueBundle\Entity\PeripheriqueDAO;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -22,7 +23,7 @@ class PeripheriqueController extends Controller
         $session = new Session();
 
         $ips = $dao->getIps($session->get('username'));
-        return $this->render("GlpmrPeripheriqueBundle:Default:manage_mac_addr.html.twig", array("peripheriques" => $peripheriques,"tableau_ip" => $ips));
+        return $this->render("GlpmrPeripheriqueBundle:Default:manage_mac_addr.html.twig", array("peripheriques" => $peripheriques, "tableau_ip" => $ips));
     }
 
     public function ajouterAction(Request $request)
@@ -57,13 +58,13 @@ class PeripheriqueController extends Controller
 
             } else {
                 $title = "Erreur!";
-                $message = "Erreur, l'adresse MAC est deja renseignee";
+                $message = "Erreur, l'adresse MAC est déjà renseignée";
             }
         } catch (Exception $e) {
             echo $e->getMessage();
         }
 
-       return $this->render("GlpmrPeripheriqueBundle:Default:ajouter_peripherique.html.twig", array("title" => $title, "message" => $message));
+        return $this->render("GlpmrPeripheriqueBundle:Default:ajouter_peripherique.html.twig", array("title" => $title, "message" => $message));
 
     }
 
@@ -145,8 +146,15 @@ class PeripheriqueController extends Controller
 
     public function rechercheAction()
     {
-        AuthentificationController::isConnected();
-        return $this->render('@GlpmrPeripherique/Default/recherche.html.twig');
+        $session = new Session();
+
+        if (!$session->get("admin")) {
+            CustomError::showMessage("Vous n'avez pas les droits");
+            return $this->redirect($this->generateUrl("glpmr_peripherique_gestion"));
+        } else {
+            AuthentificationController::isConnected();
+            return $this->render('@GlpmrPeripherique/Default/recherche.html.twig');
+        }
     }
 
     public function resultatAction(Request $request)
@@ -165,8 +173,15 @@ class PeripheriqueController extends Controller
 
     public function supprimerGroupeAction()
     {
-        AuthentificationController::isConnected();
-        return $this->render("@GlpmrPeripherique/Default/admin_suppr_groupe.html.twig");
+        $session = new Session();
+
+        if (!$session->get("admin")) {
+            CustomError::showMessage("Vous n'avez pas les droits");
+            return $this->redirect($this->generateUrl("glpmr_peripherique_gestion"));
+        } else {
+            AuthentificationController::isConnected();
+            return $this->render("@GlpmrPeripherique/Default/admin_suppr_groupe.html.twig");
+        }
     }
 
     public function supprimerGroupeValiderAction(Request $request)

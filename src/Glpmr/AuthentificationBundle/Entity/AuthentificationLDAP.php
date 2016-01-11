@@ -125,7 +125,7 @@ class AuthentificationLDAP
                 $isAdmin = TRUE;
 //        } else if (TRUE == strpos($entries[0]['memberof'][1], "Admins du domaine")) {
 //            $isAdmin = TRUE;
-            } 
+            }
         }
 
         return $isAdmin;
@@ -188,17 +188,16 @@ class AuthentificationLDAP
     public static function calculPromotion($annee)
     {
         $date = new \DateTime();
-        $year = $date->format("Y");
+        $cyear = $date->format("Y");
+        $cyear = intval($cyear);
         $month = $date->format("m");
         $session = "";
 
-        $year = $year + 0.5;
-
-        if ($month > 8) {
-            $annee = $annee + 0.5;
+        if ($month >= 8) {
+            $cyear += 0.5;
         }
 
-        if ($year - $annee < 2) {
+        if ($annee - $cyear <= 0.5) {
             $session = 2;
         } else {
             $session = 1;
@@ -256,9 +255,9 @@ class AuthentificationLDAP
         //var_dump($entries);
         foreach ($entries as $res) {
             if (!(isset($res['mail'][0]) && isset($res['sn'][0])
-                && isset($res['givenname'][0]) && isset($res['samaccountname'][0]))
+                    && isset($res['givenname'][0]) && isset($res['samaccountname'][0]))
                 || $res['samaccountname'][0] != $login
-                ) {
+            ) {
                 //var_dump($res);
             } else {
                 $user->setMail($res['mail'][0]);
