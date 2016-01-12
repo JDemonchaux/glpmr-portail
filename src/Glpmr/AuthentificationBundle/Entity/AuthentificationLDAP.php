@@ -14,11 +14,15 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class AuthentificationLDAP
 {
 
-    private static $baseDN = "dc=labo,dc=lpmr,dc=info";
+    private static $baseDN = "dc=reseau-labo,dc=fr";
 //    private static $ldapServer = "PROD-DC-01";
     private static $ldapServer = "172.16.0.100";
     private static $ldapServerPort = 389;
-    private static $dn = "dc=labo,dc=lpmr,dc=info";
+    private static $dn = "dc=reseau-labo,dc=fr";
+
+//    private static $baseDN = "dc=maison,dc=local";
+//    private static $dn = "dc=maison,dc=local";
+//    private static $ldapServer = "192.168.0.15";
     public static $user_filter = "(objectCategory=user)";
     public static $connexion;
 
@@ -114,13 +118,14 @@ class AuthentificationLDAP
         $results = ldap_search(self::$connexion, self::$dn, "(samaccountname=$login)", array("memberof", "primarygroupid"));
         $entries = ldap_get_entries(self::$connexion, $results);
 
-        if (TRUE == strpos($entries[0]['memberof'][0], "Admins du domaine")) {
-            $isAdmin = TRUE;
-        } else if (TRUE == strpos($entries[0]['memberof'][1], "Admins du domaine")) {
-            $isAdmin = TRUE;
-        } else {
-            // Utilisateur dans aucune promo
-            $isAdmin = false;
+        var_dump($entries);
+
+        if (isset($entries[0]['memberof'][0])) {
+            if (TRUE == strpos($entries[0]['memberof'][0], "Admins du domaine")) {
+                $isAdmin = TRUE;
+//        } else if (TRUE == strpos($entries[0]['memberof'][1], "Admins du domaine")) {
+//            $isAdmin = TRUE;
+            }
         }
 
         return $isAdmin;
@@ -183,23 +188,20 @@ class AuthentificationLDAP
     public static function calculPromotion($annee)
     {
         $date = new \DateTime();
-        $year = $date->format("Y");
+        $cyear = $date->format("Y");
+        $cyear = intval($cyear);
         $month = $date->format("m");
         $session = "";
 
-        $year = $year + 0.5;
-
-        if ($month > 8) {
-            $annee = $annee + 0.5;
+        if ($month >= 8) {
+            $cyear += 0.5;
         }
 
-        if ($year - $annee < 2) {
+        if ($annee - $cyear <= 0.5) {
             $session = 2;
         } else {
             $session = 1;
         }
-
-        var_dump($session);
 
         return $session;
     }

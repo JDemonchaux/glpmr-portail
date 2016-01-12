@@ -47,10 +47,26 @@ $(document).ready(function () {
         "hideEasing": "linear",
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
-    }
+    };
 
     var message = $('.notification').attr("data-message");
-    toastr.error(message)
+    toastr.error(message);
 
+
+    /*
+    ** Gestion de la recherche admin
+    * Si aucun champs n'est rempli, on de valide pas
+     */
+    $("#formRecherche").on('submit', function() {
+        if (null == $("#promotion").val() &&
+        "" == $("#username").val() &&
+        "" == $("#IP").val() &&
+        "" == $("#MAC").val()) {
+            alert('Il faut au moins un des champs!');
+            return false;
+        } else {
+            $(this).submit();
+        }
+    });
 
 });
