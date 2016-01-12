@@ -13,8 +13,8 @@ class PeripheriqueDAO
 {
     private $table_name = "radmacadd";
     private $connexion;
-//    private $url_pfsense = "https://172.16.254.254/json-autoconfig/push.php";
-    private $url_pfsense = "http://localhost";
+    private $url_pfsense = "https://172.16.254.254/json-autoconfig/push.php";
+//    private $url_pfsense = "http://localhost";
 
     public function __construct($dbalConnection)
     {

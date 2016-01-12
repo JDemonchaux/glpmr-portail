@@ -14,15 +14,15 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class AuthentificationLDAP
 {
 
-//    private static $baseDN = "dc=labo,dc=lpmr,dc=info";
+    private static $baseDN = "dc=reseau-labo,dc=fr";
 //    private static $ldapServer = "PROD-DC-01";
-//    private static $ldapServer = "172.16.0.100";
+    private static $ldapServer = "172.16.0.100";
     private static $ldapServerPort = 389;
-//    private static $dn = "dc=labo,dc=lpmr,dc=info";
+    private static $dn = "dc=reseau-labo,dc=fr";
 
-    private static $baseDN = "dc=maison,dc=local";
-    private static $dn = "dc=maison,dc=local";
-    private static $ldapServer = "192.168.0.15";
+//    private static $baseDN = "dc=maison,dc=local";
+//    private static $dn = "dc=maison,dc=local";
+//    private static $ldapServer = "192.168.0.15";
     public static $user_filter = "(objectCategory=user)";
     public static $connexion;
 

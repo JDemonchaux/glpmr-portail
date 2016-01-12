@@ -12,8 +12,8 @@ use Symfony\Component\HttpFoundation\Request;
 class AuthentificationController extends Controller
 {
 
-    //public static $home = "http://localhost/glpmr-portail/web/";
-    public static $home = "https://glpmr-portail.labo.lpmr.info";
+    public static $home = "http://localhost/glpmr-portail/web/";
+//    public static $home = "https://glpmr-portail.labo.lpmr.info";
 
 
     // Route par défaut, on charge la vue de login

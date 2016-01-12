@@ -10,6 +10,7 @@
             <div class="col s12">
                 <div class="card">
                     <span class="card-title">Modifier</span>
+
                     <div class="card-content">
                         <form action="{{ path('glpmr_peripherique_modifier') }}" method="POST">
                             <div class="modal-content">
@@ -20,7 +21,8 @@
                                     <div class="col s6">
                                         <select id="type" name="type" required>
                                             <option value="" disabled>Choisir un p&eacute;riph&eacute;rique</option>
-                                            <option value="{{ peripherique.type }}" selected>{{ peripherique.type }}</option>
+                                            <option value="{{ peripherique.type }}"
+                                                    selected>{{ peripherique.type }}</option>
                                             <option value="ordinateur">Ordinateur</option>
                                             <option value="vm">Machine Virtuelle</option>
                                             <option value="smartphone">T&eacute;l&eacute;phone</option>
@@ -35,8 +37,8 @@
                                             <option value="" disabled>Choisir une IP :</option>
                                             <option value="{{ peripherique.o4 }}"
                                                     selected>{{ peripherique.o4 }}</option>
-                                            {% for i in 1..254 %}
-                                                <option value="{{ i }}">{{ i }}</option>
+                                            {% for ip in tableau_ip %}
+                                                <option value="{{ ip }}">{{ ip }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -69,6 +71,7 @@
                                 </div>
                             </div>
                             <input type="hidden" name="id" value="{{ peripherique.id }}"/>
+
                             <div class="modal-footer center-align">
                                 <button class="btn-flat waves-effect waves-green" type="submit" name="action">
                                     Enregistrer
