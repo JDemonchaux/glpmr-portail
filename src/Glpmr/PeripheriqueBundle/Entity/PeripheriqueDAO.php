@@ -261,7 +261,8 @@ class PeripheriqueDAO
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                     'Content-Type: application/json',
-                    'Content-Length: ' . strlen($json))
+                    'Content-Length: ' . strlen($json),
+                    'Except:')
             );
 
             $result = curl_exec($ch);
