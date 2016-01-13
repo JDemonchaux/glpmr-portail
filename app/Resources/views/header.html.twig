@@ -10,6 +10,9 @@
     <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/design.css') }}">
     <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/toastr.min.css') }}">
     <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/font-awesome.min.css') }}">
+    
+    <script type="application/javascript" src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    
 </head>
 <body>
 {% for flashMessage in app.session.flashbag.get('notification') %}

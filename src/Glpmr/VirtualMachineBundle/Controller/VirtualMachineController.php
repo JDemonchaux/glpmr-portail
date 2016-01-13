@@ -157,15 +157,32 @@ class VirtualMachineController extends Controller {
                         ), 'text/html')
                 ;
                 $this->get('mailer')->send($message);
-               
+                
+                //on envoie une copie à obi
+                $message = \Swift_Message::newInstance()
+                        ->setSubject('Demande de création de VM (Copie)')
+                        ->setFrom('o.bailly@glpmr.fr')
+                        ->setTo($demande->getMailEleve()) //remplacer par le mail de l'eleve
+                        ->setBody($this->renderView('GlpmrVirtualMachineBundle:Default:mailEleve.txt.twig', array(
+                            'professeur' => $demande->getProf()->getNom() + " " + $demande->getProf()->getPrenom(),
+                            'eleve' => $demande->getNomEleve() + " " + $demande->getPrenomEleve(),
+                            'demande' => $demande)
+                        ), 'text/html')
+                ;
+                $this->get('mailer')->send($message);
+                
+                
+                
+                
                 $osTemplate = $demande->getOs()->getLibelleProxMox();                
                 $ipAdresse = $demande->getAdrsReseau()->getAdresse();
                 $hostname = $demande->getNomVM();
                 $password = $demande->getPasswordRoot();
 
                 //On execute la methode qui se connecter en ssh au serveur puis executer le script de création de la vm
-                $retour = exec("C:\wamp\www\Git_Web\web\assets\shell\cmd.bat" . " " . $osTemplate . " " . $ipAdresse . " " . $hostname . " " . $password, $retour);
-
+                $retour = exec("\glpmr-portail.reseau-labo.fr\web\assets\shell\proxmox.sh" . " " . $osTemplate . " " . $ipAdresse . " " . $hostname . " " . $password, $retour);
+                
+                
                 var_dump($retour);
             }
 

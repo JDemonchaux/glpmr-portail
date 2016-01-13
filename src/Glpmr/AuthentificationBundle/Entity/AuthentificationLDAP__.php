@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * Description of AuthentificationLDAP
  *
- * @author Jérôme
+ * @author JÃ©rÃ´me
  */
 class AuthentificationLDAP
 {
@@ -61,9 +61,9 @@ class AuthentificationLDAP
 
 
     /**
-     * Fonction qui permet de connaitre la classe d'un étudiant
-     * @param $username : le nom d'utilisateur AD d'un étudiant
-     * @return $classe : la classe de l'étudiant
+     * Fonction qui permet de connaitre la classe d'un Ã©tudiant
+     * @param $username : le nom d'utilisateur AD d'un Ã©tudiant
+     * @return $classe : la classe de l'Ã©tudiant
      */
     public static function getInfosUser($login, $password)
     {
@@ -76,7 +76,7 @@ class AuthentificationLDAP
             if (FALSE !== $resultat) {
                 $entries = ldap_get_entries(self::$connexion, $resultat);
                 foreach ($entries as $unAgent) {
-                    // On enlève les user qui servent à rien
+                    // On enlÃ¨ve les user qui servent Ã  rien
                     if (strpos($unAgent['dn'], "OU=Autres")) {
 
                     } else {
@@ -102,7 +102,7 @@ class AuthentificationLDAP
 
 
     /**
-     * Fonction qui permet de savoir si l'utilisateur connecté est administrateur
+     * Fonction qui permet de savoir si l'utilisateur connectÃ© est administrateur
      * @param username : le nom de l'utilisateur courant
      * @param password : obligatoire pour pouvoir faire une recherche dans l'AD
      * @return $admin : boolean TRUE si admin, FALSE sinon
@@ -133,8 +133,8 @@ class AuthentificationLDAP
 
 
     /**
-     * Fonction qui renvoie la promotion de l'elève
-     * @seealso SAD : schéma de l'AD pour les OU promotions
+     * Fonction qui renvoie la promotion de l'elÃ¨ve
+     * @seealso SAD : schÃ©ma de l'AD pour les OU promotions
      */
     public static function getPromotion($login, $password)
     {
@@ -149,7 +149,7 @@ class AuthentificationLDAP
                 $user = $user[0];
 
                 $split = explode(",", $user["distinguishedname"][0]);
-                // Ici pour choppé le mail
+                // Ici pour choppÃ© le mail
                 //$user['mail'][0]
                 //TODO : chopper l'OU des profs, et repasser en REGEX
 
@@ -167,7 +167,7 @@ class AuthentificationLDAP
                 $promo = str_replace("OU=", "", $promotion);
 
                 if (!$promo == '') {
-                    // On transforme ça en ASI 1 ou 2 suivant l'année.
+                    // On transforme Ã§a en ASI 1 ou 2 suivant l'annÃ©e.
                     $promo = explode(" ", $promo);
                     $annee = self::calculPromotion($promo[1]);
                     $promo_etudiant = $promo[0] . " " . $annee;
@@ -182,8 +182,8 @@ class AuthentificationLDAP
     }
 
     /**
-     * Fonction qui calcul la session de l'eleve suivant l'année de sa promo
-     * @param $annee : l'annéee de la promo de l'eleve
+     * Fonction qui calcul la session de l'eleve suivant l'annÃ©e de sa promo
+     * @param $annee : l'annÃ©ee de la promo de l'eleve
      */
     public static function calculPromotion($annee)
     {
@@ -208,7 +208,7 @@ class AuthentificationLDAP
 
     public static function getListeProf($login, $password)
     {
-        $dn = "ou=Professeur,ou=utilisateurs,dc=reseau-labo,dc=fr";
+        $dn = "ou=Professeur,ou=Utilisateurs,dc=reseau-labo,dc=fr";
 
         $lstProf = array();
 
@@ -236,16 +236,15 @@ class AuthentificationLDAP
 
     public static function getUserCourant($login, $password, $isEleve)
     {
-        
         $dn = "dc=reseau-labo,dc=fr";
 
         $user = new User();
 
         self::open($login, $password, $isEleve);
 
-        //Si c'est une prof qui s'est connecté on change le filtre
+        //Si c'est une prof qui s'est connectÃ© on change le filtre
         if (!$isEleve) {
-            $dn = "ou=Professeur,ou=utilisateurs,dc=reseau-labo,dc=fr";
+            $dn = "ou=Professeur,ou=Utilisateurs,dc=reseau-labo,dc=fr";
             //var_dump('On est un prof');
         } else {
             //var_dump('On est un eleve');
