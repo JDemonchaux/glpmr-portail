@@ -215,12 +215,12 @@ class AuthentificationLDAP
         self::open($login, $password);
 
         // Search AD
-        $results = ldap_search(self::$connexion, $dn, '(&(objectClass=user))');
+        $results = ldap_search(self::$connexion, $dn, '(&(objectClass=user))');        
         $entries = ldap_get_entries(self::$connexion, $results);
         foreach ($entries as $res) {
             //var_dump($res);
             if (!(isset($res['mail'][0]) && isset($res['sn'][0]) && isset($res['givenname'][0]))) {
-
+                //var_dump("Tous les attributs ne sont pas sets");
             } else {
                 $prof = new User();
                 $prof->setMail($res['mail'][0]);

@@ -66,6 +66,7 @@ class VirtualMachineController extends Controller {
             ;
             //var_dump($demande);
         } 
+        //Si eleve
         else {
             //On récupère l'id de l'utilisateur et on check si c'est un prof ou un eleve
             $eleve = new User();
@@ -137,6 +138,7 @@ class VirtualMachineController extends Controller {
                                 'id' => $demande->getId()), true))
                         ), 'text/html')
                 ;
+                
                 $this->get('mailer')->send($message);
 
                 $retour = "Création";
@@ -334,9 +336,9 @@ class VirtualMachineController extends Controller {
         $eleve = $request->get("eleve");
         $retour = $request->get("retour");
                 
-        var_dump($id);
-        var_dump($eleve);
-        var_dump($retour);
+      //  var_dump($id);
+      //  var_dump($eleve);
+      //  var_dump($retour);
         
         $em = $this->getDoctrine()->getManager();
         $DemandeCree = new Demande();

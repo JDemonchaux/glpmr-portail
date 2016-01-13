@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
  *
  * @author JÃ©rÃ´me
  */
-class AuthentificationLDAP
+class AuthentificationLDAP__
 {
 
     private static $baseDN = "dc=reseau-labo,dc=fr";
