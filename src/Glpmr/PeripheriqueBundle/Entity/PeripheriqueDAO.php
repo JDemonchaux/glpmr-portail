@@ -14,6 +14,7 @@ class PeripheriqueDAO
     private $table_name = "radmacadd";
     private $connexion;
     private $url_pfsense = "https://172.16.254.254/json-autoconfig/push.php";
+
 //    private $url_pfsense = "http://localhost";
 
     public function __construct($dbalConnection)
@@ -140,7 +141,7 @@ class PeripheriqueDAO
         $octet = $stmt->fetchAll();
 
         if (NULL == $octet[0]["max(o3)"]) {
-            // L'utilisateur n'a pas encore de numéro étudiant, alors on va chercher le dernier octet et on l'incrémente de 1
+            // L'utilisateur n'a pas encore de numéro étudiant, alors on va chercher le premier octet disponible
             $sql = "SELECT max(o3) FROM " . $this->table_name . " WHERE `proprietaire_classe` = :promotion";
             $stmt = $this->connection->prepare($sql);
 //            $stmt->bindValue("proprietaire", $session->get('username'));
@@ -153,12 +154,53 @@ class PeripheriqueDAO
             if (NULL == $octet[0]["max(o3)"]) {
                 $octet = 1;
             } else {
-                $octet = $octet[0]["max(o3)"] + 1;
+                $octet = $this->getFirstOctet($session->get('promotion'));
             }
         } else {
             $octet = $octet[0]["max(o3)"];
         }
         return $octet;
+    }
+
+    /**
+     * Fonction qui recupère le prochain octet disponible pour l'étudiant
+     * @return : $octet : le premier octet disponible
+     */
+    public function getFirstOctet($classe)
+    {
+        // On boucle de 1 à 255, soit les octets dispo
+        // Ensuite on recherche pour une classe donnée le premier octet dispo
+
+        // Récupération des différents octets déjà en bdd
+        $sql = "SELECT distinct o3 FROM " . $this->table_name . " WHERE `proprietaire_classe` = :proprietaire_classe";
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue("proprietaire_classe", $classe);
+        $stmt->execute();
+        $ip_used = $stmt->fetchAll();
+
+        $ip = array();
+
+        // On construit un tableau de 1 à 255
+        for ($i = 1; $i <= 255; $i++) {
+            $ip[] = $i;
+        }
+
+        // On retire du tableau d'ip celle de la bdd
+        foreach ($ip_used as $uneIp) {
+            if (($key = array_search(intval($uneIp['o3']), $ip)) !== false) {
+                unset($ip[$key]);
+            }
+        }
+
+        // Maintenant on retourne le premier octect du tableua d'ip
+        // on foreach car potentiellement on remove l'index 0 du tableau
+        foreach ($ip as $add) {
+            $ip = $add;
+            break;
+        }
+
+        return $ip;
     }
 
     /**
@@ -233,5 +275,21 @@ class PeripheriqueDAO
             CustomError::showMessage($e->getMessage());
         }
 
+    }
+
+    /**
+     * @param $username
+     * @param $id
+     * Fonction qui va regarder en base si l'utilisateur cherche bien à modifier SON peripherique
+     */
+    public function anticheat($username, $obj)
+    {
+        $p = $this->listerOne($obj);
+        $cheat = false;
+        if ($username !== $p['proprietaire']) {
+            $cheat = true;
+        }
+
+        return $cheat;
     }
 }
