@@ -163,8 +163,8 @@ class VirtualMachineController extends Controller {
                 //on envoie une copie à obi
                 $message = \Swift_Message::newInstance()
                         ->setSubject('Demande de création de VM (Copie)')
-                        ->setFrom('o.bailly@glpmr.fr')
-                        ->setTo($demande->getMailEleve()) //remplacer par le mail de l'eleve
+                        ->setFrom('glpmremailvm@gmail.com')
+                        ->setTo('o.bailly@glpmr.fr') //remplacer par le mail de l'eleve
                         ->setBody($this->renderView('GlpmrVirtualMachineBundle:Default:mailEleve.txt.twig', array(
                             'professeur' => $demande->getProf()->getNom() + " " + $demande->getProf()->getPrenom(),
                             'eleve' => $demande->getNomEleve() + " " + $demande->getPrenomEleve(),
