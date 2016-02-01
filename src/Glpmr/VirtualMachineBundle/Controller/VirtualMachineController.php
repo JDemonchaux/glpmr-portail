@@ -147,6 +147,15 @@ class VirtualMachineController extends Controller {
             }
             //Si c'est le prof qui fait la demande
             else {
+                
+                $stringProf = $demande->getProf()->getNom() + " " + $demande->getProf()->getPrenom();
+                $stringEleve = $demande->getNomEleve() + " " + $demande->getPrenomEleve();
+                
+                var_dump("Prof :");
+                var_dump($stringProf);
+                var_dump("Eleve :");
+                var_dump($stringEleve);
+                
                 //On envoie le mail à l'eleve
                 $message = \Swift_Message::newInstance()
                         ->setSubject('Demande de création de VM')
