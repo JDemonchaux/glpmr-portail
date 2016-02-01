@@ -75,8 +75,18 @@ class PeripheriqueController extends Controller
             $id = $request->get("id");
             $obj = new Peripherique();
             $obj->setId($id);
-
+            $session = new Session();
             $dao = new PeripheriqueDAO($this->getDoctrine()->getConnection());
+
+            //test anti cheat
+            if (!$session->get("admin")) {
+                $cheat = $dao->anticheat($session->get('username'), $obj);
+                if ($cheat) {
+                    CustomError::showMessage("Vous n'avez pas les droits (noob!) 403");
+                    return $this->redirect($this->generateUrl("glpmr_peripherique_gestion"));
+                }
+            }
+
             $dao->supprimer($obj);
 
             $dao->exportToJson();
@@ -100,6 +110,15 @@ class PeripheriqueController extends Controller
 
             $obj = new Peripherique();
             $obj->setId($request->get("id"));
+
+            //test anti cheat
+            if (!$session->get("admin")) {
+                $cheat = $dao->anticheat($session->get('username'), $obj);
+                if ($cheat) {
+                    CustomError::showMessage("Vous n'avez pas les droits (noob!) 403");
+                    return $this->redirect($this->generateUrl("glpmr_peripherique_gestion"));
+                }
+            }
 
             $dao->supprimer($obj);
 
@@ -135,6 +154,17 @@ class PeripheriqueController extends Controller
                 $obj = $dao->listerOne($peripherique);
                 $session = new Session();
                 $ips = $dao->getIps($session->get('username'));
+
+                //test anti cheat
+                if (!$session->get("admin")) {
+                    $p = new Peripherique();
+                    $p->setId($obj['id']);
+                    $cheat = $dao->anticheat($session->get('username'), $p);
+                    if ($cheat) {
+                        CustomError::showMessage("Vous n'avez pas les droits (noob!) 403");
+                        return $this->redirect($this->generateUrl("glpmr_peripherique_gestion"));
+                    }
+                }
                 return $this->render("@GlpmrPeripherique/Default/modifier_peripherique.html.twig", array("peripherique" => $obj, "tableau_ip" => $ips));
 
             } catch (Exception $e) {
@@ -202,15 +232,14 @@ class PeripheriqueController extends Controller
         }
 
         return $this->render("GlpmrPeripheriqueBundle:Default:supprimer_peripherique.html.twig", array("title" => $title, "message" => $message));
-
-        return $this->listerAction();
     }
 
     // Route de test
     public function testAction()
     {
         $dao = new PeripheriqueDAO($this->getDoctrine()->getConnection());
-        $dao->exportToJson();
+        $session = new Session();
+
 
     }
 }
