@@ -39,9 +39,11 @@ class VirtualMachineController extends Controller {
 
             $prof = new User();
             $prof = $this->getUserCourant(false);
+            //var_dump($prof);
             $prof = $this->getProfWithId($prof);
             
             //var_dump($prof);
+            //var_dump("===================================================");
             
             $demande->setProf($prof);
 
@@ -148,13 +150,9 @@ class VirtualMachineController extends Controller {
             //Si c'est le prof qui fait la demande
             else {
                 
-                $stringProf = $demande->getProf()->getNom() + " " + $demande->getProf()->getPrenom();
-                $stringEleve = $demande->getNomEleve() + " " + $demande->getPrenomEleve();
-                
-                var_dump("Prof :");
-                var_dump($stringProf);
-                var_dump("Eleve :");
-                var_dump($stringEleve);
+                $professeur = $demande->getProf();                               
+                $stringProf = $professeur->getNom() . " " . $professeur->getPrenom();
+                //var_dump($stringProf);
                 
                 //On envoie le mail à l'eleve
                 $message = \Swift_Message::newInstance()
@@ -162,8 +160,8 @@ class VirtualMachineController extends Controller {
                         ->setFrom('glpmremailvm@gmail.com')
                         ->setTo($demande->getMailEleve()) //remplacer par le mail de l'eleve
                         ->setBody($this->renderView('GlpmrVirtualMachineBundle:Default:mailEleve.txt.twig', array(
-                            'professeur' => $demande->getProf()->getNom() + " " + $demande->getProf()->getPrenom(),
-                            'eleve' => $demande->getNomEleve() + " " + $demande->getPrenomEleve(),
+                            'professeur' => $stringProf,
+                            'eleve' => $demande->getNomEleve() . " " . $demande->getPrenomEleve(),
                             'demande' => $demande)
                         ), 'text/html')
                 ;
@@ -175,13 +173,12 @@ class VirtualMachineController extends Controller {
                         ->setFrom('glpmremailvm@gmail.com')
                         ->setTo('o.bailly@glpmr.fr') //remplacer par le mail de l'eleve
                         ->setBody($this->renderView('GlpmrVirtualMachineBundle:Default:mailEleve.txt.twig', array(
-                            'professeur' => $demande->getProf()->getNom() + " " + $demande->getProf()->getPrenom(),
-                            'eleve' => $demande->getNomEleve() + " " + $demande->getPrenomEleve(),
+                            'professeur' => $stringProf,
+                            'eleve' => $demande->getNomEleve() . " " . $demande->getPrenomEleve(),
                             'demande' => $demande)
                         ), 'text/html')
                 ;
                 $this->get('mailer')->send($message);
-                
                 
                 
                 
@@ -193,7 +190,7 @@ class VirtualMachineController extends Controller {
                 //On execute la methode qui se connecter en ssh au serveur puis executer le script de création de la vm
                 $retour = exec("\glpmr-portail.reseau-labo.fr\web\assets\shell\proxmox.sh" . " " . $osTemplate . " " . $ipAdresse . " " . $hostname . " " . $password, $retour);
                 
-                
+                var_dump("Retour Exec() : ");
                 var_dump($retour);
             }
 
@@ -293,8 +290,10 @@ class VirtualMachineController extends Controller {
 
         //On cherche tous les profs dans la bdd
         $lstProfBDD = $em->getRepository('GlpmrVirtualMachineBundle:User')
-                ->findAll();
-
+                ->findAll();        
+        
+        //var_dump($user);
+        
         foreach ($lstProfBDD as $profBDD) {
             if ($profBDD->getNom() == $user->getNom() &&
                     $profBDD->getPrenom() == $user->getPrenom() &&
@@ -315,6 +314,8 @@ class VirtualMachineController extends Controller {
         //On se connecte à l'AD, on chop tous les profs et leurs mails
         $user = AuthentificationLDAP::getUserCourant($login, $password, $isEleve);
 
+        //var_dump($user);
+        
         //Si c'est un prof on récupère l'ID
         if (!$isEleve) {
             //On récupère les utilisateurs en BDD

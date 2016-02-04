@@ -11,21 +11,18 @@ use Symfony\Component\HttpFoundation\Session\Session;
  *
  * @author Jérôme
  */
-class AuthentificationLDAP
-{
+class AuthentificationLDAP {
 
     private static $baseDN = "dc=reseau-labo,dc=fr";
 //    private static $ldapServer = "PROD-DC-01";
     private static $ldapServer = "172.16.0.100";
     private static $ldapServerPort = 389;
     private static $dn = "dc=reseau-labo,dc=fr";
-
 //    private static $baseDN = "dc=maison,dc=local";
 //    private static $dn = "dc=maison,dc=local";
 //    private static $ldapServer = "192.168.0.15";
     public static $user_filter = "(objectCategory=user)";
     public static $connexion;
-
 
     /**
      * Fonction qui ouvre la connexion AD et valide le login.
@@ -33,8 +30,7 @@ class AuthentificationLDAP
      * @param type $pass : le mot de passe de l'utilisateur.
      * @return boolean $ldapbind : true si connection OK et false sinon.
      */
-    public static function open($login, $pass)
-    {
+    public static function open($login, $pass) {
 
 //        ldap_set_option(self::$connexion, LDAP_OPT_PROTOCOL_VERSION, 3);
 //         Initialisation de la connexion
@@ -54,19 +50,16 @@ class AuthentificationLDAP
     /**
      * Fonction qui ferme la liaison Active Directory
      */
-    public static function close()
-    {
+    public static function close() {
         ldap_close(self::$connexion);
     }
-
 
     /**
      * Fonction qui permet de connaitre la classe d'un étudiant
      * @param $username : le nom d'utilisateur AD d'un étudiant
      * @return $classe : la classe de l'étudiant
      */
-    public static function getInfosUser($login, $password)
-    {
+    public static function getInfosUser($login, $password) {
         $user = new User();
 
         $listeAgent = array();
@@ -78,7 +71,7 @@ class AuthentificationLDAP
                 foreach ($entries as $unAgent) {
                     // On enlève les user qui servent à rien
                     if (strpos($unAgent['dn'], "OU=Autres")) {
-
+                        
                     } else {
                         array_push($listeAgent, $unAgent['samaccountname'][0]);
 
@@ -100,16 +93,13 @@ class AuthentificationLDAP
         return $user;
     }
 
-
     /**
      * Fonction qui permet de savoir si l'utilisateur connecté est administrateur
      * @param username : le nom de l'utilisateur courant
      * @param password : obligatoire pour pouvoir faire une recherche dans l'AD
      * @return $admin : boolean TRUE si admin, FALSE sinon
      */
-
-    public static function isAdmin($login, $password)
-    {
+    public static function isAdmin($login, $password) {
         self::open($login, $password);
 
         $isAdmin = FALSE;
@@ -131,13 +121,11 @@ class AuthentificationLDAP
         return $isAdmin;
     }
 
-
     /**
      * Fonction qui renvoie la promotion de l'elève
      * @seealso SAD : schéma de l'AD pour les OU promotions
      */
-    public static function getPromotion($login, $password)
-    {
+    public static function getPromotion($login, $password) {
         $promotion = null;
 
         $isConnected = AuthentificationLDAP::open($login, $password);
@@ -185,8 +173,7 @@ class AuthentificationLDAP
      * Fonction qui calcul la session de l'eleve suivant l'année de sa promo
      * @param $annee : l'annéee de la promo de l'eleve
      */
-    public static function calculPromotion($annee)
-    {
+    public static function calculPromotion($annee) {
         $date = new \DateTime();
         $cyear = $date->format("Y");
         $cyear = intval($cyear);
@@ -206,8 +193,7 @@ class AuthentificationLDAP
         return $session;
     }
 
-    public static function getListeProf($login, $password)
-    {
+    public static function getListeProf($login, $password) {
         $dn = "ou=Professeur,ou=utilisateurs,dc=reseau-labo,dc=fr";
 
         $lstProf = array();
@@ -215,7 +201,7 @@ class AuthentificationLDAP
         self::open($login, $password);
 
         // Search AD
-        $results = ldap_search(self::$connexion, $dn, '(&(objectClass=user))');        
+        $results = ldap_search(self::$connexion, $dn, '(&(objectClass=user))');
         $entries = ldap_get_entries(self::$connexion, $results);
         foreach ($entries as $res) {
             //var_dump($res);
@@ -234,9 +220,8 @@ class AuthentificationLDAP
         return $lstProf;
     }
 
-    public static function getUserCourant($login, $password, $isEleve)
-    {
-        
+    public static function getUserCourant($login, $password, $isEleve) {
+
         $dn = "dc=reseau-labo,dc=fr";
 
         $user = new User();
@@ -255,16 +240,30 @@ class AuthentificationLDAP
         $entries = ldap_get_entries(self::$connexion, $results);
         //var_dump($entries);
         foreach ($entries as $res) {
-            if (!(isset($res['mail'][0]) && isset($res['sn'][0])
-                    && isset($res['givenname'][0]) && isset($res['samaccountname'][0]))
-                || $res['samaccountname'][0] != $login
-            ) {
+            if (!(isset($res['mail'][0]) && isset($res['sn'][0]) && isset($res['givenname'][0]) 
+                    && isset($res['samaccountname'][0])) 
+                    || strtolower($res['samaccountname'][0]) != strtolower($login))
+                {
                 //var_dump($res);
+//                if (isset($res['mail'][0])) {
+//                    var_dump("Mail : ");
+//                    var_dump($res['mail'][0]);
+//                    var_dump("Sn : ");
+//                    var_dump($res['sn'][0]);
+//                    var_dump("GivenName : ");
+//                    var_dump($res['givenname'][0]);
+//                    var_dump("samaccountname : ");
+//                    var_dump($res['samaccountname'][0]);
+//                    var_dump("Login : ");
+//                    var_dump($login);
+//                }
+                //var_dump("============================ Ressource non reconnue ====================================");
             } else {
                 $user->setMail($res['mail'][0]);
                 $user->setNom($res['sn'][0]);
                 $user->setPrenom($res['givenname'][0]);
                 //var_dump($user);
+                //var_dump("======================= RESSOURCE RECONNUE !!!  ===========================================");
             }
             //var_dump($res);
         }
