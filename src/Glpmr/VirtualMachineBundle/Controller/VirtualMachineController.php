@@ -47,7 +47,7 @@ class VirtualMachineController extends Controller {
             
             $demande->setProf($prof);
 
-            $demande = $this->getDoctrine()->getEntityManager()->merge($demande);
+            $demande = $this->getDoctrine()->getManager()->merge($demande);
             
             //var_dump($demande);
             
@@ -239,7 +239,7 @@ class VirtualMachineController extends Controller {
             //Si le prof de la BDD n'est pas contenu dans l'AD
             if (!in_array($profBDD, $lstProfAD)) {
 
-                $em = $this->container->get('doctrine')->getEntityManager();
+                $em = $this->container->get('doctrine')->getManager();
                 $connection = $em->getConnection();
                 $statement = $connection->prepare(
                         "DELETE FROM User "
@@ -392,7 +392,7 @@ class VirtualMachineController extends Controller {
 
     public function suppressionIPAction(Request $request, $id) {
         //On ajoute un nouvel enregistrement en base
-        $em = $this->container->get('doctrine')->getEntityManager();
+        $em = $this->container->get('doctrine')->getManager();
         $connection = $em->getConnection();
 
         $statement = $connection->prepare(
@@ -408,7 +408,7 @@ class VirtualMachineController extends Controller {
 
     public function suppressionOSAction(Request $request, $id) {
         //On ajoute un nouvel enregistrement en base
-        $em = $this->container->get('doctrine')->getEntityManager();
+        $em = $this->container->get('doctrine')->getManager();
         $connection = $em->getConnection();
 
         $statement = $connection->prepare(
@@ -421,7 +421,7 @@ class VirtualMachineController extends Controller {
     }
 
     private function getAdressesIp() {
-        $em = $this->container->get('doctrine')->getEntityManager();
+        $em = $this->container->get('doctrine')->getManager();
 
         $listeAdresseIp = $em->createQuery(
                         'SELECT p FROM GlpmrVirtualMachineBundle:AdresseIp p ORDER BY p.adresse ASC'
@@ -432,7 +432,7 @@ class VirtualMachineController extends Controller {
     }
 
     private function getOs() {
-        $em = $this->container->get('doctrine')->getEntityManager();
+        $em = $this->container->get('doctrine')->getManager();
 
         $listeOS = $em->createQuery(
                         'SELECT p FROM GlpmrVirtualMachineBundle:Os p ORDER BY p.libelleUser ASC'
@@ -448,7 +448,7 @@ class VirtualMachineController extends Controller {
 
         if ($champ_libelleProxmox != null && $champ_libelleUtilisateur != null) {
             //On ajoute un nouvel enregistrement en base
-            $em = $this->container->get('doctrine')->getEntityManager();
+            $em = $this->container->get('doctrine')->getManager();
             $connection = $em->getConnection();
 
 
@@ -466,7 +466,7 @@ class VirtualMachineController extends Controller {
 
         if ($champ_newAdresseIp != null) {
             //On ajoute un nouvel enregistrement en base
-            $em = $this->container->get('doctrine')->getEntityManager();
+            $em = $this->container->get('doctrine')->getManager();
             $connection = $em->getConnection();
 
 
