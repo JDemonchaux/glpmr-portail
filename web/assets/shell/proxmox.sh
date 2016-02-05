@@ -12,8 +12,6 @@ id = $5
 lastOctets = $6
 
 
-read -p 'Saisir un port pour lacces exterieur: ' port
-
 #Création de la vm sur le proxmox
 ssh root@172.31.10.1 vzctl create "$lastOctets" --ostemplate debian-7.0-standard_7.0-2_i386 #création du conteneur avec un numéro et choix du template
 ssh root@172.31.10.1 vzctl set "$lastOctets" --onboot yes --ipadd "$lastOctets" --nameserver 172.31.1.1 --hostname "$nomMachine".reseau-labo.fr --searchdomain reseau-labo.fr --cpus 1 --ram 512M --swap 512M --diskspace 20G --save #configuration du conteneur

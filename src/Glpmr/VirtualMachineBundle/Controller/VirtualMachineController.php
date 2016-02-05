@@ -190,7 +190,7 @@ class VirtualMachineController extends Controller {
                 $lastsOctetsIP = $this->getLastsOctetsFromIP($ipAdresse);
 
                 //On execute la methode qui se connecter en ssh au serveur puis executer le script de création de la vm
-                $retour = exec("/var/www/glpmr-portail.reseau-labo.fr/web/assets/shell/proxmox.sh" . " " . $osTemplate . " " . $ipAdresse . " " . $hostname . " " . $password . " " . $idVM . " " . $lastsOctetsIP, $retour);
+                $retour = shell_exec("/var/www/glpmr-portail.reseau-labo.fr/web/assets/shell/proxmox.sh" . " " . $osTemplate . " " . $ipAdresse . " " . $hostname . " " . $password . " " . $idVM . " " . $lastsOctetsIP, $retour);
                 
                 var_dump("Retour Exec() : ");
                 var_dump($retour);
@@ -225,8 +225,11 @@ class VirtualMachineController extends Controller {
         
         $ip = $octets[2] .".". $octets[3];
         
+        //On ajoute 100 car si l'id est en dessous de 100 ca ne marchera pas
+        $iIp = intval($ip);
+        $iIp = $iIp + 100;
         
-        return $ip;
+        return strval($ip);
     }
     
     private function gestionProfEnBase() {
