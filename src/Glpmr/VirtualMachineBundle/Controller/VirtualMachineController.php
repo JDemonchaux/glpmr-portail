@@ -190,7 +190,7 @@ class VirtualMachineController extends Controller {
                 $lastsOctetsIP = $this->getLastsOctetsFromIP($ipAdresse);
 
                 //On execute la methode qui se connecter en ssh au serveur puis executer le script de création de la vm
-                $retour = exec("\glpmr-portail.reseau-labo.fr\web\assets\shell\proxmox.sh" . " " . $osTemplate . " " . $ipAdresse . " " . $hostname . " " . $password . " " . $idVM . " " . $lastsOctetsIP, $retour);
+                $retour = exec("/var/www/glpmr-portail.reseau-labo.fr/web/assets/shell/proxmox.sh" . " " . $osTemplate . " " . $ipAdresse . " " . $hostname . " " . $password . " " . $idVM . " " . $lastsOctetsIP, $retour);
                 
                 var_dump("Retour Exec() : ");
                 var_dump($retour);
