@@ -185,20 +185,22 @@ class VirtualMachineController extends Controller {
                 $osTemplate = $demande->getOs()->getLibelleProxMox();                
                 $ipAdresse = $demande->getAdrsReseau()->getAdresse();
                 $hostname = $demande->getNomVM();
-                $password = $demande->getPasswordRoot();
+                $password = $demande->getPasswordRoot();                
+                $idVM = $this->getIdFromIP($ipAdresse);
+                $lastsOctetsIP = $this->getLastsOctetsFromIP($ipAdresse);
 
                 //On execute la methode qui se connecter en ssh au serveur puis executer le script de création de la vm
-                $retour = exec("\glpmr-portail.reseau-labo.fr\web\assets\shell\proxmox.sh" . " " . $osTemplate . " " . $ipAdresse . " " . $hostname . " " . $password, $retour);
+                $retour = exec("\glpmr-portail.reseau-labo.fr\web\assets\shell\proxmox.sh" . " " . $osTemplate . " " . $ipAdresse . " " . $hostname . " " . $password . " " . $idVM . " " . $lastsOctetsIP, $retour);
                 
                 var_dump("Retour Exec() : ");
                 var_dump($retour);
             }
 
-            // On redirige vers la page de visualisation de la VM nouvellement créée
-           return $this->redirect($this->generateUrl('glpmr_virtual_machine_consultation', array(
-                    'id' => $id,
-                    'eleve' => $eleve,
-                    'retour' => $retour))); 
+//            // On redirige vers la page de visualisation de la VM nouvellement créée
+//           return $this->redirect($this->generateUrl('glpmr_virtual_machine_consultation', array(
+//                    'id' => $id,
+//                    'eleve' => $eleve,
+//                    'retour' => $retour))); 
         }
 
         return $this->render('GlpmrVirtualMachineBundle:Default:creation.html.twig', array(
@@ -207,6 +209,26 @@ class VirtualMachineController extends Controller {
         ));
     }
 
+    private function getIdFromIP($sIp)
+    {
+        $octets = explode(".", $sIp);
+        
+        $ip = $octets[2] . $octets[3];
+        
+        
+        return $ip;
+    }
+    
+    private function getLastsOctetsFromIP($sIp)
+    {
+        $octets = explode(".", $sIp);
+        
+        $ip = $octets[2] .".". $octets[3];
+        
+        
+        return $ip;
+    }
+    
     private function gestionProfEnBase() {
         $entity = new User();
         $session = new Session();
