@@ -190,17 +190,20 @@ class VirtualMachineController extends Controller {
                 $lastsOctetsIP = $this->getLastsOctetsFromIP($ipAdresse);
 
                 //On execute la methode qui se connecter en ssh au serveur puis executer le script de création de la vm
-                $retour = shell_exec("/var/www/glpmr-portail.reseau-labo.fr/web/assets/shell/proxmox.sh" . " " . $osTemplate . " " . $ipAdresse . " " . $hostname . " " . $password . " " . $idVM . " " . $lastsOctetsIP, $retour);
+                $retour = exec("/var/www/glpmr-portail.reseau-labo.fr/web/assets/shell/proxmox.sh" . " " . $osTemplate . " " . $ipAdresse . " " . $hostname . " " . $password . " " . $idVM . " " . $lastsOctetsIP, $retour);
                 
                 var_dump("Retour Exec() : ");
                 var_dump($retour);
             }
 
-//            // On redirige vers la page de visualisation de la VM nouvellement créée
-//           return $this->redirect($this->generateUrl('glpmr_virtual_machine_consultation', array(
-//                    'id' => $id,
-//                    'eleve' => $eleve,
-//                    'retour' => $retour))); 
+            //TODO Commenter ce return pour tester le php exec et le script sur le serveur
+            
+            
+            // On redirige vers la page de visualisation de la VM nouvellement créée
+           return $this->redirect($this->generateUrl('glpmr_virtual_machine_consultation', array(
+                    'id' => $id,
+                    'eleve' => $eleve,
+                    'retour' => $retour))); 
         }
 
         return $this->render('GlpmrVirtualMachineBundle:Default:creation.html.twig', array(
