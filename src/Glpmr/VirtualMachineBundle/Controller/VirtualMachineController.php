@@ -2,6 +2,7 @@
 
 namespace Glpmr\VirtualMachineBundle\Controller;
 
+use Glpmr\AuthentificationBundle\Controller\AuthentificationController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Glpmr\VirtualMachineBundle\Entity\User as User;
 use Glpmr\VirtualMachineBundle\Entity\Demande;
