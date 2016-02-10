@@ -12,7 +12,9 @@ use Glpmr\AuthentificationBundle\Entity\AuthentificationLDAP;
 class VirtualMachineController extends Controller {
 
     public function creationAction(Request $request, $id) {
-        
+
+        AuthentificationController::isConnected();
+
         //On récupère l'id de l'utilisateur et on check si c'est un prof ou un eleve
 //        $eleve = new User();
 //        $eleve = $this->getUserCourant(true);
