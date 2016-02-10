@@ -250,26 +250,30 @@ class PeripheriqueDAO
 
             $json = json_encode($data);
 
-            //var_dump($json);
+//            var_dump($json);
 
             // POST TO URL
             $ch = curl_init($this->url_pfsense);
+
+            // pour debug
+//            curl_setopt($ch, CURLOPT_VERBOSE, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                    'Expect:',
+                    'Content-Type: application/json',
+                    'Content-Length: ' . strlen($json))
+            );
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                    'Content-Type: application/json',
-                    'Content-Length: ' . strlen($json),
-                    'Except:')
-            );
+//            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
             $result = curl_exec($ch);
-            //echo "<br />";
-            //echo "Error : " . curl_error($ch) . " | code err : " . curl_errno($ch);
-            //echo "<br />";
-            //var_dump(curl_getinfo($ch));
+//            echo "<br />";
+//            echo "Error : " . curl_error($ch) . " | code err : " . curl_errno($ch);
+//            echo "<br />";
+//            var_dump(curl_getinfo($ch));
             curl_close($ch);
 
         } catch (Exception $e) {
