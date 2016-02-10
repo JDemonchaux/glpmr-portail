@@ -267,7 +267,7 @@ class PeripheriqueDAO
             curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
-//            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
             $result = curl_exec($ch);
 //            echo "<br />";
